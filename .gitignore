@@ -6,6 +6,7 @@ src\db\data-dev.sqlite
 *.pyc
 scratch*
 scratch
+scratch/
 *.DS_Store
 .DS_Store
 db_venv
