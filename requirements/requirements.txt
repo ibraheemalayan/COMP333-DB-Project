@@ -1,0 +1,21 @@
+wheel
+Flask
+Flask-SQLAlchemy==2.5.1 #FIXME ( causes scoped_session (progress monitors) to fail if updated to 3.0.0 because in the 3rd version the session is scoped to the app context instead of the thread
+Flask-WTF
+WTForms-Validators
+Werkzeug
+WTForms[email]
+Flask-Login
+SQLAlchemy-Utils
+python-dotenv
+Requests
+Psycopg2
+orjson
+itsdangerous==2.0.1 #FIXME
+Flask-RESTful
+Flask-Cors
+Flask-Filter
+Redis
+git+https://github.com/idot/meinheld.git@patch-1 # patch for meinheld-greenlet version mismatch
+# a WTForms extension for JSON data handling.
+# WTForms-JSON # disabled because we use a fork of it and is a part of the code
