@@ -85,4 +85,4 @@ In order to collaborate to the remote repository you have to finish the followin
     pre-commit install
     pre-commit install --hook-type commit-msg --hook-type pre-push
     ```
-    > those commands will install the pre-commit hooks defined in the `.pre-commit-config.yaml` file
+    > those commands will install the pre-commit hooks defined in the `.pre-commit-config.yaml` file for the local repo
