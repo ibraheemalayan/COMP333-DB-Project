@@ -1,0 +1,6 @@
+python-dotenv
+requests
+pytest
+alive-progress
+colorama
+flake8

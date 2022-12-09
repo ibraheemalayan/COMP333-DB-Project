@@ -1,0 +1,13 @@
+-r requirements.txt
+-r testing_requirements.txt
+Faker
+Bootstrap-Flask
+Pytest
+wtforms>=3.0.0a1 # not directly required, pinned by Snyk to avoid a vulnerability
+names
+pytest
+alive-progress
+colorama
+pre-commit
+watchdog
+setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
