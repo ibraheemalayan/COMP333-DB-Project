@@ -75,7 +75,7 @@
 * Copilot, find the [plugin here](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)
 
 
-# Collaboration Setup
+# Collaboration Setup ( Pre Commit Hooks )
 In order to collaborate to the remote repository you have to finish the following setup:
 
 * enable format on save in VSCode
