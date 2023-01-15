@@ -49,6 +49,41 @@
     cd src
     ```
 
+* redirect domains to 127.0.0.1
+    * Windows
+        * open a powershell console as administrator and run:
+
+            ```powershell
+            Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     www.silal-payments.local'
+            ```
+        * clear dns cache
+            ```powershell
+            ipconfig /flushdns
+            ```
+
+    * Mac OS (unix)
+
+        > Note: if lookups against hosts file are slow, [see this answer](https://superuser.com/questions/1596225/dns-resolution-delay-for-entries-in-etc-hosts#)
+
+        * open a terminal run:
+
+            ```zsh
+            sudo zsh -c "echo -e '::1\twww.silal-payments.local' >> /etc/hosts"
+            ```
+        * clear dns cache
+            ```zsh
+            sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+            ```
+
+    * Linux
+        * open a terminal run:
+
+            ```zsh
+            sudo su
+            echo -e '127.0.0.1\twww.silal-payments.local' >> /etc/hosts
+            ```
+        * no need to flush DNS
+
 ### IDE Extentions
 
 > To enhance IDE performance, disable *all* extentions then enable only globally required extentions for VSCode ( CoPilot, Themes, Git ... ) and enable other extentions **for this workspace only**.

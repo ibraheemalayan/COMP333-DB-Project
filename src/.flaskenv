@@ -1,5 +1,5 @@
-FLASK_APP=silal
+FLASK_APP=silal_payments
 FLASK_DEBUG=True
-SERVER_NAME=dev-silal.com:8080
+SERVER_NAME=silal-payments.local:9999
 FLASK_RUN_HOST=0.0.0.0
-FLASK_RUN_PORT=8080
+FLASK_RUN_PORT=9999

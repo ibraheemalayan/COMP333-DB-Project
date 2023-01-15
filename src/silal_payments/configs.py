@@ -20,8 +20,8 @@ class Config:
     VERSION = "0.6.12.10"  # FIXME use a version auto bump script in pre-commit
     LAST_UPDATE = "Sat 31 Dec 2022, 15:11"
 
-    SERVER_NAME = "silal.app"
-    DOMAIN_NAME = "silal.app"
+    SERVER_NAME = "silal-payments.local"
+    DOMAIN_NAME = "silal-payments.local"
 
     SSL_REDIRECT = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///db.sqlite3"
@@ -76,8 +76,8 @@ class DevelopmentConfig(Config):
 
     CONFIG_MODE = "development"
 
-    SERVER_NAME = "dev-silal.com:8080"
-    DOMAIN_NAME = "dev-silal.com"
+    SERVER_NAME = "0.0.0.0:9999"
+    DOMAIN_NAME = "silal-payments.local"
 
     REMEMBER_COOKIE_SECURE = False
 
