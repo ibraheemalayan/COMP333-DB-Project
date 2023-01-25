@@ -105,7 +105,7 @@ class DevelopmentConfig(Config):
 
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("DEV_DATABASE_URL")
-        or "postgresql+psycopg2://silal_agent:PasSw0rd@127.0.0.1:5432/"
+        or "postgresql+psycopg2://silal_payment:PasSw0rd@127.0.0.1:5432/"
     )
 
     # SQLALCHEMY_DATABASE_URI = os.environ.get("REMOTE_DEV_DATABASE_URL")
