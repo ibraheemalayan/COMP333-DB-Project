@@ -80,9 +80,9 @@ def create_app():
     # ########################################################
     # ############ Auth API ############
 
-    from .platforms.index import index_api
+    from .platforms import shared_api
 
-    app.register_blueprint(index_api)
+    app.register_blueprint(shared_api)
 
     # ########################################################
 
