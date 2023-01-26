@@ -65,6 +65,10 @@ def create_app():
 
     wtforms_json.init()
 
+    from .api.utils import page_not_found
+
+    app.register_error_handler(404, page_not_found)
+
     from .auth import user_loader
 
     login_manager.init_app(app)
@@ -78,11 +82,18 @@ def create_app():
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
     # ########################################################
-    # ############ Auth API ############
 
-    from .platforms import shared_api
+    from .api import shared_api
 
     app.register_blueprint(shared_api)
+
+    from .api.management import management_api
+
+    app.register_blueprint(management_api)
+
+    from .api.delivery import delivery_api
+
+    app.register_blueprint(delivery_api)
 
     # ########################################################
 
