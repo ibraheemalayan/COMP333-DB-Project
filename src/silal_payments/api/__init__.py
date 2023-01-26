@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, redirect, render_template, url_for
 
 shared_api = Blueprint("shared_api", __name__)
 
@@ -19,4 +19,4 @@ def management_index():
     return render_template("index.html", domain="management")
 
 
-from . import static_router
+from . import utils
