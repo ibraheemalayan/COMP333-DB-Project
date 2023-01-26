@@ -14,11 +14,6 @@ repos:
     hooks:
       - id: black
 
-  - repo: https://github.com/jorisroovers/gitlint
-    rev: v0.17.0
-    hooks:
-      - id: gitlint
-
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v2.32.2
     hooks:

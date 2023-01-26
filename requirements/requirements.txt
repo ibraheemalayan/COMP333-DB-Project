@@ -15,7 +15,4 @@ itsdangerous==2.0.1 #FIXME
 Flask-RESTful
 Flask-Cors
 Flask-Filter
-Redis
-git+https://github.com/idot/meinheld.git@patch-1 # patch for meinheld-greenlet version mismatch
-# a WTForms extension for JSON data handling.
 # WTForms-JSON # disabled because we use a fork of it and is a part of the code
