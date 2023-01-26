@@ -55,6 +55,8 @@
 
             ```powershell
             Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     www.silal-payments.local'
+            Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     management.silal-payments.local'
+            Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     delivery.silal-payments.local'
             ```
         * clear dns cache
             ```powershell
@@ -69,6 +71,8 @@
 
             ```zsh
             sudo zsh -c "echo -e '::1\twww.silal-payments.local' >> /etc/hosts"
+            sudo zsh -c "echo -e '::1\tdelivery.silal-payments.local' >> /etc/hosts"
+            sudo zsh -c "echo -e '::1\tmanagement.silal-payments.local' >> /etc/hosts"
             ```
         * clear dns cache
             ```zsh
