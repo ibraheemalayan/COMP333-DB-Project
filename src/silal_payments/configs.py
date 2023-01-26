@@ -17,14 +17,13 @@ class Config:
     # FIXME deepcode ignore HardcodedNonCryptoSecret: <TODO>
     SECRET_KEY = 'V"*asfjdfyia;ochbsluiyurfhdcbals"-p'  # TODO regenerate
 
-    VERSION = "0.6.12.10"  # FIXME use a version auto bump script in pre-commit
-    LAST_UPDATE = "Sat 31 Dec 2022, 15:11"
-
-    SERVER_NAME = "silal-payments.local"
-    DOMAIN_NAME = "silal-payments.local"
+    SERVER_NAME = "silal-payments.com:9999"
+    DOMAIN_NAME = "silal-payments.com"
 
     SSL_REDIRECT = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///db.sqlite3"
+    SQLALCHEMY_DATABASE_URI = (
+        "postgresql+psycopg2://silal_payment:PasSw0rd@127.0.0.1:5432/"
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = False
 
@@ -75,9 +74,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
 
     CONFIG_MODE = "development"
-
-    SERVER_NAME = "0.0.0.0:9999"
-    DOMAIN_NAME = "silal-payments.local"
 
     REMEMBER_COOKIE_SECURE = False
 

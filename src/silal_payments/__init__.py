@@ -65,6 +65,8 @@ def create_app():
 
     wtforms_json.init()
 
+    from .auth import user_loader
+
     login_manager.init_app(app)
 
     from .cli import cli_bp as cli_blueprint

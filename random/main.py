@@ -1,4 +1,5 @@
 from flask import (
+    Blueprint,
     Flask,
     Response,
     render_template,
@@ -14,6 +15,13 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 db = SQLAlchemy(app)
+
+bp = Blueprint("test_bp", __name__, url_prefix="/test/", subdomain="test")
+
+
+@bp.route("/test")
+def i():
+    return "hi"
 
 
 @app.route("/", methods=["POST", "GET"])

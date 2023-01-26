@@ -54,9 +54,9 @@
         * open a powershell console as administrator and run:
 
             ```powershell
-            Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     www.silal-payments.local'
-            Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     management.silal-payments.local'
-            Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     delivery.silal-payments.local'
+            Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     www.silal-payments.com'
+            Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     management.silal-payments.com'
+            Add-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Value '127.0.0.1     delivery.silal-payments.com'
             ```
         * clear dns cache
             ```powershell
@@ -70,9 +70,9 @@
         * open a terminal run:
 
             ```zsh
-            sudo zsh -c "echo -e '::1\twww.silal-payments.local' >> /etc/hosts"
-            sudo zsh -c "echo -e '::1\tdelivery.silal-payments.local' >> /etc/hosts"
-            sudo zsh -c "echo -e '::1\tmanagement.silal-payments.local' >> /etc/hosts"
+            sudo zsh -c "echo -e '::1\twww.silal-payments.com' >> /etc/hosts"
+            sudo zsh -c "echo -e '::1\tdelivery.silal-payments.com' >> /etc/hosts"
+            sudo zsh -c "echo -e '::1\tmanagement.silal-payments.com' >> /etc/hosts"
             ```
         * clear dns cache
             ```zsh
@@ -84,7 +84,7 @@
 
             ```zsh
             sudo su
-            echo -e '127.0.0.1\twww.silal-payments.local' >> /etc/hosts
+            echo -e '127.0.0.1\twww.silal-payments.com' >> /etc/hosts
             ```
         * no need to flush DNS
 
