@@ -5,5 +5,5 @@ from silal_payments import db
 
 
 db.engine.execute(
-    "INSERT INTO public.user (phone, user_type, full_name) VALUES ('920593112323', 'manager', 'random');"
+    f"INSERT INTO public.user (phone, user_type, full_name) VALUES ('920593112323', 'manager', 'random');"
 )

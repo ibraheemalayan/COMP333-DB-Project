@@ -7,7 +7,5 @@ file = open(os.path.join(".", "silal_payments", "db_mig", "reset_db.sql"), "r")
 
 sql = file.read()
 
-print("Executing SQL commands from file: " + sql)
-
 
 db.session.execute(sql)
