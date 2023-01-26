@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS public.user;
 DROP TYPE IF EXISTS usertype;
 
-
+BEGIN;
 
 CREATE TYPE usertype AS ENUM
     ('manager', 'delivery', 'seller', 'customer');
@@ -18,3 +18,5 @@ CREATE TABLE IF NOT EXISTS public.user
 
 	CONSTRAINT user_pkey PRIMARY KEY (user_id)
 );
+
+COMMIT;
