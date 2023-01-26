@@ -150,4 +150,6 @@ CREATE TABLE IF NOT EXISTS public.company_driver (
 
 
 
+
+
 COMMIT;
