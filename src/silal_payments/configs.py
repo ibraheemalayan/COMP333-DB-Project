@@ -22,7 +22,7 @@ class Config:
 
     SSL_REDIRECT = True
     SQLALCHEMY_DATABASE_URI = (
-        "postgresql+psycopg2://silal_payment:PasSw0rd@127.0.0.1:5432/"
+        "postgresql+psycopg2://silal_agent:PasSw0rd@127.0.0.1:5432/silal_payments"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = False
@@ -90,21 +90,6 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_RECORD_QUERIES = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     # SQLALCHEMY_ECHO=True
-
-    # SQLite config
-
-    # SQLALCHEMY_DATABASE_URI = os.environ.get(
-    #     "DEV_DATABASE_URL"
-    # ) or "sqlite:///" + os.path.join(os.path.dirname(basedir), "data-dev.sqlite")
-
-    # Postgresql config
-
-    SQLALCHEMY_DATABASE_URI = (
-        os.environ.get("DEV_DATABASE_URL")
-        or "postgresql+psycopg2://silal_payment:PasSw0rd@127.0.0.1:5432/"
-    )
-
-    # SQLALCHEMY_DATABASE_URI = os.environ.get("REMOTE_DEV_DATABASE_URL")
 
     SOLR_HOST = "localhost"
     SOLR_PORT = 8983

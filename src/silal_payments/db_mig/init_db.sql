@@ -1,17 +1,20 @@
--- create tables
+DROP TABLE IF EXISTS public.user;
+DROP TYPE IF EXISTS usertype;
+
+
 
 CREATE TYPE usertype AS ENUM
     ('manager', 'delivery', 'seller', 'customer');
 
 
-CREATE TABLE IF NOT EXISTS user
+CREATE TABLE IF NOT EXISTS public.user
 (
-	user_id integer SERIAL NOT NULL,
+	user_id SERIAL NOT NULL,
 -- 	email character varying(64),
 	phone character varying(12),
 	user_type usertype,
 	full_name character varying(64),
-	password_hash character varying(160)
+	password_hash character varying(160),
 
-	CONSTRAINT user_pkey PRIMARY KEY (id)
+	CONSTRAINT user_pkey PRIMARY KEY (user_id)
 );

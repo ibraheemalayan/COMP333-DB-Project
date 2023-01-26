@@ -1,10 +1,8 @@
 from silal_payments import db
-
-
-db.engine.execute("CREATE TABLE test;")
+import os
 
 # read sql commands from file (inti_db.sql) and execute them
-file = open("init_db.sql", "r")
+file = open(os.path.join(".", "silal_payments", "db_mig", "init_db.sql"), "r")
+conn = db.session.connection()
 
-for line in file:
-    db.engine.execute(line)
+db.session.execute(file.read())
