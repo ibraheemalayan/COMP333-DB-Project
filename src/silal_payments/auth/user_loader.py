@@ -2,8 +2,8 @@ from .. import login_manager
 
 
 @login_manager.user_loader
-def load_user_by_id(useR_id):
-    # from .models import User
+def load_user_by_id(user_id):
 
-    # return User.query.get(useR_id)
-    pass
+    from ..models.user import User, load_user_from_db
+
+    return load_user_from_db(user_id)
