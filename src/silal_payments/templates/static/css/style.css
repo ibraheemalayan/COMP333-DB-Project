@@ -1,0 +1,29 @@
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+.h-custom {
+  height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
+}
+:root {
+    --si-green: #00ae42;
+    --si-ligreen: #f0f9f5;
+}
+.brand {
+    /* width: 4.75rem; */
+    height: max-content;
+    height: 150px;
+    width: 150px;
+}
+
+#form3Example4 {
+    background-color: var(--si-ligreen);
+}
