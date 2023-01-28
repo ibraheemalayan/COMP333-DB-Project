@@ -13,10 +13,10 @@ pass_hash = generate_password_hash(
 u1 = User(
     user_id=1,
     phone="1234567890",
-    user_type=UserType.customer,
+    user_type=UserType.manager,
     full_name="John Doe",
     password_hash=pass_hash,
-    email="random@gmail.com",
+    email="admin@silal.app",
 )
 
 u2 = User(
