@@ -69,7 +69,9 @@ def create_app():
 
     app.register_error_handler(404, page_not_found)
 
-    from .auth import user_loader
+    from .auth import user_loader, auth_bp
+
+    app.register_blueprint(auth_bp)  # has url_prefix="/auth"
 
     login_manager.init_app(app)
 

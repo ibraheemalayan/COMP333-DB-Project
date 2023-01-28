@@ -16,7 +16,7 @@ def delivery_index():
 def management_index():
     """index"""
 
-    return render_template("index.html", domain="management")
+    return redirect(url_for("auth.management_login"))
 
 
 from . import utils

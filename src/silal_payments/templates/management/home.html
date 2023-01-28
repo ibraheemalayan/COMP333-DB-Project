@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Silal Login
+{% endblock %}
+
+{% block page_styles %}
+<link href="/static/css/home.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Admin Home Page</h1>
+
+    <a href="/auth/logout/">Logout</a>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}

@@ -1,0 +1,24 @@
+.login_status {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+}
+
+body {
+    position: relative;
+}
+
+.flash_container {
+    position: fixed;
+    top: 30px;
+    z-index: 15;
+}
+
+.flash_msg {
+    width: 50%;
+    left: 25%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

@@ -1,32 +1,38 @@
-DROP TABLE IF EXISTS public.customer;
-
-DROP TABLE IF EXISTS public.seller;
-
-DROP TABLE IF EXISTS public.driver;
-
-DROP TABLE IF EXISTS public.manager;
-
-DROP TABLE IF EXISTS public.delivery;
 
 
-DROP TABLE IF EXISTS public.product;
-
-DROP TABLE IF EXISTS public.order;
-
-DROP TABLE IF EXISTS public.order_item;
-
-DROP TABLE IF EXISTS public.user;
-
-DROP TYPE IF EXISTS usertype;
+DROP TABLE IF EXISTS public.customer_driver_transaction;
+DROP TABLE IF EXISTS public.company_driver_transaction;
+DROP TABLE IF EXISTS public.seller_company_transaction;
+DROP TABLE IF EXISTS public.customer_company_transaction;
+DROP TABLE IF EXISTS public.driver_company_transaction;
 
 DROP TABLE IF EXISTS public.transaction;
+DROP TYPE IF EXISTS public.transaction_type;
 
-DROP TABLE IF EXISTS public.transaction_type;
+DROP TABLE IF EXISTS public.order_item;
+DROP TABLE IF EXISTS public.product;
+DROP TABLE IF EXISTS public.order;
+
+DROP TABLE IF EXISTS public.manager;
+DROP TABLE IF EXISTS public.delivery;
+DROP TABLE IF EXISTS public.seller;
+DROP TABLE IF EXISTS public.driver;
+DROP TABLE IF EXISTS public.customer;
+
+DROP TABLE IF EXISTS public.user;
+DROP TYPE IF EXISTS usertype;
+
 
 BEGIN;
 
 CREATE TYPE usertype AS ENUM ('manager', 'driver', 'seller', 'customer');
-CREATE TYPE transaction_type AS ENUM ('customet_driver','driver_company','customer_company','company_driver','company_seller');
+CREATE TYPE transaction_type AS ENUM (
+	'customer_driver_transaction',
+	'customer_company_transaction',
+	'company_driver_transaction',
+	'company_seller_transaction',
+	'company_customer_transaction'
+	);
 
 CREATE TABLE IF NOT EXISTS public.user (
 	user_id SERIAL NOT NULL,
@@ -103,49 +109,49 @@ CREATE TABLE IF NOT EXISTS public.transaction (
 	CONSTRAINT transaction_pkey PRIMARY KEY (transaction_id)
 );
 
-CREATE TABLE IF NOT EXISTS public.customet_driver (
+CREATE TABLE IF NOT EXISTS public.customer_driver_transaction (
 	transaction_id integer NOT NULL,
 	customer_id integer NOT NULL,
 	driver_id integer NOT NULL,
-	CONSTRAINT customet_driver_pkey PRIMARY KEY (transaction_id),
-	CONSTRAINT customet_driver_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customer (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT customet_driver_driver_id_fkey FOREIGN KEY (driver_id) REFERENCES public.driver (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT customet_driver_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
+	CONSTRAINT customer_driver_transaction_pkey PRIMARY KEY (transaction_id),
+	CONSTRAINT customer_driver_transaction_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customer (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT customer_driver_transaction_driver_id_fkey FOREIGN KEY (driver_id) REFERENCES public.driver (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT customer_driver_transaction_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS public.driver_company (
+CREATE TABLE IF NOT EXISTS public.driver_company_transaction (
 	transaction_id integer NOT NULL,
 	driver_id integer NOT NULL,
-	CONSTRAINT driver_company_pkey PRIMARY KEY (transaction_id),
-	CONSTRAINT driver_company_driver_id_fkey FOREIGN KEY (driver_id) REFERENCES public.driver (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT driver_company_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
+	CONSTRAINT driver_company_transaction_pkey PRIMARY KEY (transaction_id),
+	CONSTRAINT driver_company_transaction_driver_transaction_id_fkey FOREIGN KEY (driver_id) REFERENCES public.driver (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT driver_company_transaction_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS public.customer_company (
+CREATE TABLE IF NOT EXISTS public.customer_company_transaction (
 	transaction_id integer NOT NULL,
 	customer_id integer NOT NULL,
 	driver_bank_account character varying(16),
-	CONSTRAINT customer_company_pkey PRIMARY KEY (transaction_id),
-	CONSTRAINT customer_company_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customer (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT customer_company_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
+	CONSTRAINT customer_company_transaction_pkey PRIMARY KEY (transaction_id),
+	CONSTRAINT customer_company_transaction_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customer (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT customer_company_transaction_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS public.seller_company (
+CREATE TABLE IF NOT EXISTS public.seller_company_transaction (
 	transaction_id integer NOT NULL,
 	seller_id integer NOT NULL,
 	seller_bank_account character varying(16),
-	CONSTRAINT seller_company_pkey PRIMARY KEY (transaction_id),
-	CONSTRAINT seller_company_seller_id_fkey FOREIGN KEY (seller_id) REFERENCES public.seller (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT seller_company_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
+	CONSTRAINT seller_company_transaction_pkey PRIMARY KEY (transaction_id),
+	CONSTRAINT seller_company_transaction_seller_id_fkey FOREIGN KEY (seller_id) REFERENCES public.seller (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT seller_company_transaction_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS public.company_driver (
+CREATE TABLE IF NOT EXISTS public.company_driver_transaction (
 	transaction_id integer NOT NULL,
 	driver_id integer NOT NULL,
 	driver_bank_account character varying(16),
-	CONSTRAINT company_driver_pkey PRIMARY KEY (transaction_id),
-	CONSTRAINT company_driver_driver_id_fkey FOREIGN KEY (driver_id) REFERENCES public.driver (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT company_driver_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
+	CONSTRAINT company_driver_transaction_pkey PRIMARY KEY (transaction_id),
+	CONSTRAINT company_driver_transaction_driver_id_fkey FOREIGN KEY (driver_id) REFERENCES public.driver (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT company_driver_transaction_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
 
