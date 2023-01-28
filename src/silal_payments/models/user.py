@@ -3,6 +3,8 @@ from silal_payments import db
 
 from sqlalchemy.engine import Result, Row
 
+from flask_login import UserMixin
+
 
 class UserType(Enum):
     manager = "manager"
@@ -11,7 +13,7 @@ class UserType(Enum):
     customer = "customer"
 
 
-class User:
+class User(UserMixin):
 
     table_name = "user"
 
@@ -63,6 +65,29 @@ def load_user_from_db(user_id):
 
     result_set: Result = db.engine.execute(
         f"""SELECT * FROM public.{User.table_name} WHERE user_id = %s""", (user_id)
+    )
+
+    row: Row = result_set.first()
+
+    if row:
+
+        return User(
+            user_id=row[0],
+            phone=row[1],
+            user_type=UserType(row[2]),
+            full_name=row[3],
+            password_hash=row[4],
+            email=row[5],
+        )
+
+    return None
+
+
+def get_user_by_email(email: str, user_type: UserType):
+
+    result_set: Result = db.engine.execute(
+        f"""SELECT * FROM public.{User.table_name} WHERE email = %s AND user_type = %s""",
+        (email, user_type.value),
     )
 
     row: Row = result_set.first()

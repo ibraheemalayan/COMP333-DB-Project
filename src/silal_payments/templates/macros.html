@@ -1,0 +1,140 @@
+{% macro auth_status(current_user) %}
+    <ul>
+        <li>authenticated: <strong>{{current_user.is_authenticated}}</strong></li>
+        <li>verified_email: <strong>{{current_user.verified_email}}</strong></li>
+        <li>is anonymous : <strong>{{current_user.is_anonymous}}</strong></li>
+        <li>logged in as "{{current_user.user_type}}" named <strong>"{{current_user.name}}"</strong></li>
+    </ul>
+{% endmacro %}
+
+{% macro flash() %}
+        <!-- messages start -->
+
+        <div class="col d-flex flash_container">
+          <!-- render flashed messages -->
+          {% with messages = get_flashed_messages(category_filter=['success']) %}
+              {% if messages %}
+                  <!-- success messages -->
+                  {% for message in messages %}
+                      <div class="alert shadow flash_msg alert-success" role="alert">
+                          {{ message }}
+                          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                      </div>
+                  {% endfor %}
+              {% endif %}
+          {% endwith %}
+
+          {% with messages = get_flashed_messages(category_filter=['warning']) %}
+              {% if messages %}
+                  <!-- warning messages -->
+                  {% for message in messages %}
+                      <div class="alert shadow flash_msg alert-warning" role="alert">
+                          {{ message }}
+                          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                      </div>
+                  {% endfor %}
+              {% endif %}
+          {% endwith %}
+
+          {% with messages = get_flashed_messages(category_filter=['error']) %}
+              {% if messages %}
+                  <!-- error messages -->
+                  {% for message in messages %}
+                      <div class="alert shadow flash_msg alert-danger" role="alert">
+                          {{ message }}
+                          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                      </div>
+                  {% endfor %}
+              {% endif %}
+          {% endwith %}
+      </div>
+      <!-- messages end -->
+{% endmacro %}
+
+{% macro navbar(current_user) %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Silal</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item active">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/auth/preferences">Security Prefrences</a>
+          </li>
+        {% endif %}
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sites
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="http://www.{{config.SERVER_NAME}}">Customer</a>
+            <a class="dropdown-item" href="http://seller.{{config.SERVER_NAME}}">Seller</a>
+            <a class="dropdown-item" href="http://delivery_management.{{config.SERVER_NAME}}">Delivery Management</a>
+            <a class="dropdown-item" href="http://management.{{config.SERVER_NAME}}">Management</a>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Debug AUTH
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {{ auth_status(current_user) }}
+            </div>
+          </li>
+      </ul>
+
+
+      {% if current_user.is_authenticated %}
+          <a class="btn btn-outline-danger" href="/auth/logout" role="button">Logout</a>
+      {% else %}
+          <a class="btn btn-outline-info nav-item mx-1" href="/auth/login" role="button">Login</a>
+          <a class="btn btn-outline-success nav-item mx-1" href="/auth/sign_up" role="button">Sign Up</a>
+      {% endif %}
+
+    </div>
+  </nav>
+{% endmacro %}
+
+{% macro delete_script() %}
+
+<script>
+    function send_delete(url, id){
+
+      let new_url = url.replace("-1", id);
+
+      fetch(new_url, {
+          method: 'DELETE'
+      }).then(res => {
+
+        if(!res.ok) {
+          return res.text().then(text => { throw new Error(text) })
+         }
+        else {
+         return res.text().then( js => {
+           alert( "Deleted Successfully, Click back in your browser if you encounter 404 #TODO implement the redirect" );
+           window.location.reload();
+          } );
+       }
+      })
+      .catch(err => {
+        alert('Error: Server responded with ' + err.message);
+      });
+
+    }
+
+</script>
+
+{% endmacro %}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block styles %}
+    {{ bootstrap.load_css() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/css/intlTelInput.css">
+    {% endblock %}
+
+    {% block page_styles %}
+    {% endblock %}
+
+    <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
+  <link href="/static/css/base.css" rel="stylesheet" />
+  <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
+
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+
+    {% from 'macros.html' import flash %}
+    {{ flash() }}
+
+    {% block content %}{% endblock %}
+
+    {% if current_user.is_authenticated %}
+        <h5 class="login_status px-4 py-5 px-md-5"><span class="badge badge-success">you are logged in</span></h5>
+    {% else %}
+        <h5 class="login_status px-4 px-md-5"><span class="badge badge-secondary">you are logged out</span></h5>
+    {% endif %}
+
+
+    {{ bootstrap.load_js() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    {% block scripts %}
+
+    {% endblock %}
+  </body>
+</html>
