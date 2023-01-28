@@ -57,7 +57,7 @@ def load_transactions_from_db():
                 transaction_id=row[0],
                 transaction_type=TransactionType(row[1]),
                 transaction_amount=row[2],
-                transaction_date=strptime(row[3]),
+                transaction_date=row[3],
             )
         )
 
