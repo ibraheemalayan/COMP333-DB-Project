@@ -1,0 +1,26 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.heading {
+  text-align: center;
+  margin: 60px;
+
+}
+
+.silal_colored {
+  color: #00ae42;
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+  font-size: larger;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 18pt;
+}

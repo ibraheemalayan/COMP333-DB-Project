@@ -11,12 +11,4 @@ def delivery_index():
     return render_template("index.html", domain="delivery")
 
 
-@shared_api.route("/index/", methods=["GET"], subdomain="management")
-@shared_api.route("/", methods=["GET"], subdomain="management")
-def management_index():
-    """index"""
-
-    return redirect(url_for("auth.management_login"))
-
-
 from . import utils

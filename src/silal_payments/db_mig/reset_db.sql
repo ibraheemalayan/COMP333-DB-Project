@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS public.order_item (
 CREATE TABLE IF NOT EXISTS public.transaction (
 	transaction_id SERIAL NOT NULL,
 	transaction_type transaction_type,
-	transaction_amount integer,
+	transaction_amount NUMERIC(10, 2),
 	transaction_date timestamp without time zone,
 	CONSTRAINT transaction_pkey PRIMARY KEY (transaction_id)
 );

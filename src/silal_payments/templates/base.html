@@ -32,7 +32,7 @@
     {% block content %}{% endblock %}
 
     {% if current_user.is_authenticated %}
-        <h5 class="login_status px-4 py-5 px-md-5"><span class="badge badge-success">you are logged in</span></h5>
+        <h5 class="login_status px-4 px-md-5"><span class="badge badge-success">you are logged in</span></h5>
     {% else %}
         <h5 class="login_status px-4 px-md-5"><span class="badge badge-secondary">you are logged out</span></h5>
     {% endif %}
