@@ -33,9 +33,9 @@ class User(UserMixin):
         self.password_hash = password_hash
         self.email = email
 
-    def insert_into_db(self):
-        db.engine.execute(
-            f"""INSERT INTO public.{self.table_name} (phone, user_type, full_name, password_hash, email) VALUES (%s, %s, %s, %s, %s)""",
+    def insert_into_db(self) -> int:
+        user_id: Row = db.engine.execute(
+            f"""INSERT INTO public.{self.table_name} (phone, user_type, full_name, password_hash, email) VALUES (%s, %s, %s, %s, %s) RETURNING user_id""",
             (
                 self.phone,
                 self.user_type.value,
@@ -43,7 +43,11 @@ class User(UserMixin):
                 self.password_hash,
                 self.email,
             ),
-        )
+        ).first()
+
+        self.user_id = user_id[0]
+
+        return self.user_id
 
     def __str__(self) -> str:
         return f"""User: user_id={self.user_id} phone={self.phone} user_type={self.user_type} full_name={self.full_name} email={self.email}"""

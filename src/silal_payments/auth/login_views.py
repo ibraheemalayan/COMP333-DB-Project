@@ -1,7 +1,7 @@
 # Seller Login
 from flask_login import login_user, logout_user, current_user
 from silal_payments.auth.form import EmailPassLoginForm
-from silal_payments.models.user import UserType, get_user_by_email, User
+from silal_payments.models.users.user import UserType, get_user_by_email, User
 from werkzeug.security import check_password_hash
 from . import auth_bp
 

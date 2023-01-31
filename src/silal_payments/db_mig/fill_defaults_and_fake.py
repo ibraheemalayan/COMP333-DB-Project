@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from silal_payments import db
 from silal_payments.models.transaction import Transaction, TransactionType
-from silal_payments.models.user import User, UserType
+from silal_payments.models.users.user import User, UserType
 from random import choice as random_choice, randint
 from werkzeug.security import generate_password_hash
 
