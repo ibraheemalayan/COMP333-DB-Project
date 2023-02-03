@@ -1,4 +1,5 @@
 from flask import Blueprint, current_app
+from sqlalchemy import text
 
 cli_bp = Blueprint("cli", __name__)
 
@@ -25,7 +26,7 @@ def drop_db():
 
     # TODO for each table, drop it
 
-    db.engine.execute("DROP TABLE IF EXISTS alembic_version;")
+    db.session.execute(text("DROP TABLE IF EXISTS alembic_version;"))
 
     from sqlalchemy.ext.compiler import compiles
 
@@ -54,7 +55,7 @@ def init_db_with_sample_data():
 
     # TODO for each table, drop it
 
-    db.engine.execute("DROP TABLE IF EXISTS alembic_version;")
+    db.session.execute(text("DROP TABLE IF EXISTS alembic_version;"))
 
     print("✅ Database was droped successfully")
 

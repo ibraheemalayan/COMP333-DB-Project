@@ -41,7 +41,7 @@ class Transaction:
             transaction_type=self.transaction_type.value,
         )
 
-        id_row: Row = db.engine.execute(stmt).first()
+        id_row: Row = db.session.execute(stmt).first()
 
         self.transaction_id = id_row[0]
 
@@ -52,7 +52,9 @@ class Transaction:
 
 
 def load_transactions_from_db():
-    result = db.engine.execute(f"""SELECT * FROM public.{Transaction.table_name}""")
+    result = db.session.execute(
+        text(f"""SELECT * FROM public.{Transaction.table_name}""")
+    )
 
     transactions = []
 

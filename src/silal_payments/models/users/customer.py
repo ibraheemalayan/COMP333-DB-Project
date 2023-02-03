@@ -1,10 +1,10 @@
+from sqlalchemy import text
 from silal_payments.models.users.user import User, UserType
 from silal_payments import db
 from sqlalchemy.engine import Result, Row
 
 
 class Customer(User):
-
     sub_table_name = "customer"
 
     def __init__(
@@ -17,7 +17,6 @@ class Customer(User):
         address: str,
         card_number: str,
     ):
-
         super().__init__(
             user_id, phone, UserType.customer, full_name, password_hash, email
         )
@@ -26,16 +25,16 @@ class Customer(User):
         self.card_number: str = card_number
 
     def insert_into_db(self):
-
         super().insert_into_db()
 
-        db.engine.execute(
-            f"""INSERT INTO public.{self.sub_table_name} (user_id, address, card_number) VALUES (%s, %s, %s);""",
-            (
-                self.user_id,
-                self.address,
-                self.card_number,
-            ),
+        db.session.execute(
+            text(
+                f"""INSERT INTO public.{self.sub_table_name} (user_id, address, card_number) VALUES (:user_id, :address, :card_number);""",
+            ).bindparams(
+                user_id=self.user_id,
+                address=self.address,
+                card_number=self.card_number,
+            )
         )
 
         return self.user_id
@@ -47,8 +46,9 @@ class Customer(User):
 def load_customer_from_db(user_id: int) -> Customer:
     """Load a customer from the database"""
 
-    user: Row = db.engine.execute(
-        f"""
+    user: Row = db.session.execute(
+        text(
+            f"""
             SELECT
                 public.{Customer.sub_table_name}.user_id,
                 public.{User.table_name}.phone,
@@ -62,8 +62,10 @@ def load_customer_from_db(user_id: int) -> Customer:
                 public.{Customer.sub_table_name} LEFT JOIN
                 ON public.{Customer.sub_table_name}=public.{User.table_name}
             WHERE {User.table_name}.user_id = %d
-        """,
-        (user_id,),
+        """
+        ).bindparams(
+            user_id=user_id,
+        ),
     ).first()
 
     if user is None:

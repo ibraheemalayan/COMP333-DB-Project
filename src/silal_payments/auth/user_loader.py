@@ -5,9 +5,9 @@ from flask import flash, redirect, url_for, request
 @login_manager.user_loader
 def load_user_by_id(user_id):
 
-    from ..models.users.user import User, load_user_from_db
+    from ..models.users.user import User
 
-    return load_user_from_db(user_id)
+    return User.load_by_id(user_id)
 
 
 @login_manager.unauthorized_handler

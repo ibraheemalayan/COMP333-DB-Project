@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from silal_payments import db
 from silal_payments.models.transaction import Transaction, TransactionType
 from silal_payments.models.users.customer import Customer
+from silal_payments.models.users.seller import Seller
 from silal_payments.models.users.user import User, UserType
 from faker import Faker
 from random import choice as random_choice, randint
@@ -58,6 +59,37 @@ def insert_random_customers(num_customers: int):
         customers[-1].insert_into_db()
 
     return customers
+
+
+def insert_random_sellers(num_sellers: int):
+    """Insert a random number of sellers into the database"""
+
+    # generate random seller data
+    sellers = []
+    fake: Faker = Faker()
+    Faker.seed(0)
+    for i in range(num_sellers):
+        phone = get_random_il_e164()
+        full_name = fake.name()
+        password = "123"
+        pass_hash = generate_password_hash(
+            password, salt_length=8, method="pbkdf2:sha512:200000"
+        )
+        email = fake.email()
+        sellers.append(
+            Seller(
+                user_id=0,  # auto generated
+                phone=phone,
+                full_name=full_name,
+                password_hash=pass_hash,
+                email=email,
+                bank_account=str(fake.credit_card_number()[0:16]),
+            )
+        )
+
+        sellers[-1].insert_into_db()
+
+    return sellers
 
 
 def insert_random_transactions(num_transactions: int):
