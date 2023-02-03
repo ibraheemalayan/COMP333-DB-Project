@@ -36,7 +36,7 @@ CREATE TYPE transaction_type AS ENUM (
 
 CREATE TABLE IF NOT EXISTS public.user (
 	user_id SERIAL NOT NULL,
-	phone character varying(12),
+	phone character varying(16),
 	user_type usertype,
 	full_name character varying(64),
 	password_hash character varying(160),
@@ -66,11 +66,11 @@ CREATE TABLE IF NOT EXISTS public.driver (
 	CONSTRAINT driver_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user (user_id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS public.manager (
-	user_id integer NOT NULL,
-	CONSTRAINT manager_pkey PRIMARY KEY (user_id),
-	CONSTRAINT manager_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user (user_id) ON UPDATE NO ACTION ON DELETE CASCADE
-);
+-- CREATE TABLE IF NOT EXISTS public.manager (
+-- 	user_id integer NOT NULL,
+-- 	CONSTRAINT manager_pkey PRIMARY KEY (user_id),
+-- 	CONSTRAINT manager_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user (user_id) ON UPDATE NO ACTION ON DELETE CASCADE
+-- );
 
 CREATE TABLE IF NOT EXISTS public.product (
 	product_id SERIAL NOT NULL,

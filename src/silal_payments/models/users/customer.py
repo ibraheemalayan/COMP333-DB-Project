@@ -5,7 +5,7 @@ from sqlalchemy.engine import Result, Row
 
 class Customer(User):
 
-    table_name = "customer"
+    sub_table_name = "customer"
 
     def __init__(
         self,
@@ -30,7 +30,7 @@ class Customer(User):
         super().insert_into_db()
 
         db.engine.execute(
-            f"""INSERT INTO public.{self.table_name} (user_id, address, card_number) VALUES (%d, %s, %s);""",
+            f"""INSERT INTO public.{self.sub_table_name} (user_id, address, card_number) VALUES (%s, %s, %s);""",
             (
                 self.user_id,
                 self.address,
@@ -48,7 +48,21 @@ def load_customer_from_db(user_id: int) -> Customer:
     """Load a customer from the database"""
 
     user: Row = db.engine.execute(
-        f"""SELECT * FROM public.{Customer.table_name} WHERE user_id = %d""",
+        f"""
+            SELECT
+                public.{Customer.sub_table_name}.user_id,
+                public.{User.table_name}.phone,
+                public.{User.table_name}.user_type,
+                public.{User.table_name}.full_name,
+                public.{User.table_name}.password_hash,
+                public.{Customer.sub_table_name}.email,
+                public.{Customer.sub_table_name}.address,
+                public.{Customer.sub_table_name}.card_number
+            FROM
+                public.{Customer.sub_table_name} LEFT JOIN
+                ON public.{Customer.sub_table_name}=public.{User.table_name}
+            WHERE {User.table_name}.user_id = %d
+        """,
         (user_id,),
     ).first()
 
