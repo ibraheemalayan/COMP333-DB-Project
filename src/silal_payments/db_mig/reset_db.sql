@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS public.driver (
 CREATE TABLE IF NOT EXISTS public.product (
 	product_id SERIAL NOT NULL,
 	product_name character varying(64),
-	product_price integer,
+	product_price NUMERIC(7, 2),
 	product_seller integer NOT NULL,
 	CONSTRAINT product_pkey PRIMARY KEY (product_id),
 	CONSTRAINT product_seller_fkey FOREIGN KEY (product_seller) REFERENCES public.seller (user_id) ON UPDATE NO ACTION ON DELETE CASCADE
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS public.order_item (
 	order_id integer NOT NULL,
 	product_id integer NOT NULL,
 	quantity integer,
-	price_per_unit integer,
+	price_per_unit NUMERIC(7, 2),
 	CONSTRAINT order_item_pkey PRIMARY KEY (order_id, product_id),
 	CONSTRAINT order_item_order_id_fkey FOREIGN KEY (order_id) REFERENCES public.order (order_id) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT order_item_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.product (product_id) ON UPDATE NO ACTION ON DELETE CASCADE

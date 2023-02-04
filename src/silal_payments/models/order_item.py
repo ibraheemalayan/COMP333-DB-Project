@@ -10,7 +10,7 @@ class OrderItem:
         self.order_id: int = order_id
         self.product_id: int = product_id
         self.quantity: int = quantity
-        self.price_per_unit: int = price_per_unit
+        self.price_per_unit: float = price_per_unit
 
     def insert_into_db(self) -> int:
         order_item_id: Row = db.session.execute(

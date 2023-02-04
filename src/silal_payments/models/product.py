@@ -5,10 +5,13 @@ from sqlalchemy.engine import Result, Row
 
 class Product:
     table_name = "product"
-    def __init__(self, product_id: int, product_name: str, product_price: int, product_seller: id) -> None:
+
+    def __init__(
+        self, product_id: int, product_name: str, product_price: int, product_seller: id
+    ) -> None:
         self.product_id: int = product_id
         self.product_name: str = product_name
-        self.product_price: int = product_price
+        self.product_price: float = product_price
         self.product_seller: id = product_seller
 
     def insert_into_db(self) -> int:
@@ -33,7 +36,14 @@ class Product:
             text(f"""SELECT * FROM public.{Product.table_name}""")
         )
 
-        products = [Product(product_id=row[0], product_name=row[1], product_price=row[2], product_seller=row[3]) for row in result]
-
+        products = [
+            Product(
+                product_id=row[0],
+                product_name=row[1],
+                product_price=row[2],
+                product_seller=row[3],
+            )
+            for row in result
+        ]
 
         return products

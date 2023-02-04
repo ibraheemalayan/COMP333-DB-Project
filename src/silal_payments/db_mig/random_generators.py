@@ -219,7 +219,7 @@ def insert_random_products(num_products: int, sellers: list[Seller]):
     Faker.seed(0)
     for _ in range(num_products):
         name = fake.name()
-        price = randint(1, 1000000) / 10.0
+        price = randint(1, 1000) / 10.0
         products.append(
             Product(
                 product_id=0,  # auto generated
@@ -265,8 +265,7 @@ def insert_random_order_items(
 
     for order in orders:
         p_set = set()
-        for i in range(randint(1, 10)):
-
+        for i in range(randint(1, 5)):
             product: Product = random_choice(products)
 
             while product in p_set:
@@ -278,7 +277,7 @@ def insert_random_order_items(
                 OrderItem(
                     order_id=order.order_id,
                     product_id=product.product_id,
-                    quantity=randint(1, 10),
+                    quantity=randint(1, 5),
                     price_per_unit=product.product_price,
                 )
             )

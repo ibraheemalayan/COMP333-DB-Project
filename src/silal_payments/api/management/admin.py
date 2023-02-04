@@ -27,8 +27,8 @@ def transactions():
         "customer_driver_transaction": "success",
         "customer_company_transaction": "danger",
         "company_driver_transaction": "primary",
-        "company_seller_transaction": "secondary",
-        "company_customer_transaction": "info",
+        "seller_company_transaction": "secondary",
+        "driver_company_transaction": "info",
     }
 
     return render_template(
