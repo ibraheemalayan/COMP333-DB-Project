@@ -26,8 +26,13 @@ admin_1 = User(
 admin_1.insert_into_db()
 
 
-from .random_generators import insert_random_customers, insert_random_transactions
+from .random_generators import (
+    insert_random_customers,
+    insert_random_transactions,
+    insert_random_sellers,
+)
 
 
 transactions = insert_random_transactions(30)
 customers = insert_random_customers(20)
+sellers = insert_random_sellers(15)
