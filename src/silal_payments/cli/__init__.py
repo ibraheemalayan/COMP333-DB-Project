@@ -1,5 +1,6 @@
 from flask import Blueprint, current_app
 from sqlalchemy import text
+from silal_payments.models.product import Product
 
 cli_bp = Blueprint("cli", __name__)
 
@@ -12,8 +13,11 @@ def init_db():
 @cli_bp.cli.command("db-fill")
 def init_db():
     from silal_payments.db_mig import fill_defaults_and_fake
-
-
+    
+@cli_bp.cli.command("test-products")
+def test():
+    for product in Product.load_products_from_db():
+        print(product)
 @cli_bp.cli.command("drop-db")
 def drop_db():
 
