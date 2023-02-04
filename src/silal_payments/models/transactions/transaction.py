@@ -11,8 +11,8 @@ class TransactionType(Enum):
     customer_driver_transaction = "customer_driver_transaction"
     customer_company_transaction = "customer_company_transaction"
     company_driver_transaction = "company_driver_transaction"
-    company_seller_transaction = "company_seller_transaction"
-    company_customer_transaction = "company_customer_transaction"
+    seller_company_transaction = "seller_company_transaction"
+    driver_company_transaction = "driver_company_transaction"
 
 
 class Transaction:
