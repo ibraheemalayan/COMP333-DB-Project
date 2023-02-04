@@ -126,7 +126,7 @@ def load_user_from_db(user_id):
 def get_user_by_email(email: str, user_type: UserType):
     result_set: Result = db.session.execute(
         text(
-            f"""SELECT * FROM public.{User.table_name} WHERE email = :email AND user_type = user_type"""
+            f"""SELECT * FROM public.{User.table_name} WHERE email = :email AND user_type = :user_type"""
         ).bindparams(email=email, user_type=user_type.value),
     )
 
