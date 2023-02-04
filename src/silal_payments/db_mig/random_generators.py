@@ -25,7 +25,7 @@ from silal_payments.models.users.driver import Driver
 from silal_payments.models.users.user import User, UserType
 from silal_payments.models.product import Product
 from faker import Faker
-from random import choice as random_choice, randint
+from random import choice as random_choice, randint, shuffle
 from werkzeug.security import generate_password_hash
 
 from random import choice, randint
@@ -194,8 +194,6 @@ def insert_random_transactions(
                 )
             )
 
-        transactions[-1].insert_into_db()
-
     for order in orders:
         transactions.append(
             CustomerCompanyTransaction(
@@ -206,7 +204,12 @@ def insert_random_transactions(
                 order_id=order.order_id,
             )
         )
-        transactions[-1].insert_into_db()
+
+    shuffle(transactions)
+
+    for transaction in transactions:
+        transaction.insert_into_db()
+
     return transactions
 
 
