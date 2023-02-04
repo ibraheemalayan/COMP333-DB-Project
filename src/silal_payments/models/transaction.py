@@ -2,6 +2,7 @@ from enum import Enum
 from time import strptime
 from silal_payments import db
 from sqlalchemy import text
+from sqlalchemy.engine import Result, Row
 
 from datetime import datetime
 
@@ -33,21 +34,27 @@ class Transaction:
     def insert_into_db(self):
 
         stmt = text(
-            f"""INSERT INTO public.{self.table_name} (transaction_type, transaction_amount, transaction_date) VALUES (:transaction_type, :transaction_amount, :transaction_date)"""
+            f"""INSERT INTO public.{self.table_name} (transaction_type, transaction_amount, transaction_date) VALUES (:transaction_type, :transaction_amount, :transaction_date) RETURNING transaction_id;"""
         ).bindparams(
             transaction_date=self.transaction_date,
             transaction_amount=self.transaction_amount,
             transaction_type=self.transaction_type.value,
         )
 
-        db.engine.execute(stmt)
+        id_row: Row = db.session.execute(stmt).first()
+
+        self.transaction_id = id_row[0]
+
+        return self.transaction_id
 
     def __str__(self) -> str:
         return f"""Transaction: transaction_id={self.transaction_id} transaction_type={self.transaction_type} transaction_amount={self.transaction_amount} transaction_date={self.transaction_date}"""
 
 
 def load_transactions_from_db():
-    result = db.engine.execute(f"""SELECT * FROM public.{Transaction.table_name}""")
+    result = db.session.execute(
+        text(f"""SELECT * FROM public.{Transaction.table_name}""")
+    )
 
     transactions = []
 

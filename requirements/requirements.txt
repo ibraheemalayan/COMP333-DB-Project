@@ -1,6 +1,6 @@
 wheel
 Flask
-Flask-SQLAlchemy==2.5.1 #FIXME ( causes scoped_session (progress monitors) to fail if updated to 3.0.0 because in the 3rd version the session is scoped to the app context instead of the thread
+Flask-SQLAlchemy
 Flask-WTF
 WTForms-Validators
 Werkzeug

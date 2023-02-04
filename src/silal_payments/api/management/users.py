@@ -1,6 +1,6 @@
 from flask import url_for, redirect, render_template
 from . import management_api
-from silal_payments.models.user import User, load_user_from_db
+from silal_payments.models.users.user import User, load_user_from_db
 
 
 @management_api.route(

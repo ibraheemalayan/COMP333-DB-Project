@@ -2,14 +2,14 @@
 
 ### Dependencies
 
-* Install **Python** >= 3.9
+* Install **Python** >= 3.11
 * Install **Postgresql DB Engine**
 * Install **python pip**
 * Add Python, scripts to PATH
     * Windows
        ```
-        {Python_dir}\Python39\Scripts\
-        {Python_dir}\Python39\
+        {Python_dir}\Python311\Scripts\
+        {Python_dir}\Python311\
        ```
 
     * Unix ( mac / linux )

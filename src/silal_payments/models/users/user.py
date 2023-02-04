@@ -1,4 +1,6 @@
 from enum import Enum
+
+from sqlalchemy import text
 from silal_payments import db
 
 from sqlalchemy.engine import Result, Row
@@ -14,7 +16,6 @@ class UserType(Enum):
 
 
 class User(UserMixin):
-
     table_name = "user"
 
     def __init__(
@@ -33,17 +34,22 @@ class User(UserMixin):
         self.password_hash = password_hash
         self.email = email
 
-    def insert_into_db(self):
-        db.engine.execute(
-            f"""INSERT INTO public.{self.table_name} (phone, user_type, full_name, password_hash, email) VALUES (%s, %s, %s, %s, %s)""",
-            (
-                self.phone,
-                self.user_type.value,
-                self.full_name,
-                self.password_hash,
-                self.email,
+    def insert_into_db(self) -> int:
+        user_id: Row = db.session.execute(
+            text(
+                f"""INSERT INTO public.{self.table_name} (phone, user_type, full_name, password_hash, email) VALUES (:phone, :user_type, :full_name, :password_hash, :email) RETURNING user_id""",
+            ).bindparams(
+                phone=self.phone,
+                user_type=self.user_type.value,
+                full_name=self.full_name,
+                password_hash=self.password_hash,
+                email=self.email,
             ),
-        )
+        ).first()
+
+        self.user_id = user_id[0]
+
+        return self.user_id
 
     def __str__(self) -> str:
         return f"""User: user_id={self.user_id} phone={self.phone} user_type={self.user_type} full_name={self.full_name} email={self.email}"""
@@ -60,17 +66,50 @@ class User(UserMixin):
 
         return str(self.user_id)
 
+    @staticmethod
+    def load_by_id(user_id: int):
+        """Load a seller from the database"""
+
+        user: Row = db.session.execute(
+            text(
+                f"""
+                SELECT
+                    public.{User.table_name}.user_id,
+                    public.{User.table_name}.phone,
+                    public.{User.table_name}.user_type,
+                    public.{User.table_name}.full_name,
+                    public.{User.table_name}.password_hash,
+                    public.{User.table_name}.email,
+                FROM
+                    public.{User.table_name}
+                WHERE {User.table_name}.user_id = %d
+            """
+            ),
+            (user_id,),
+        ).first()
+
+        if user is None:
+            return None
+
+        return User(
+            user_id=user[0],
+            phone=user[1],
+            user_type=[2],
+            full_name=user[3],
+            password_hash=user[4],
+            email=user[5],
+        )
+
 
 def load_user_from_db(user_id):
-
-    result_set: Result = db.engine.execute(
-        f"""SELECT * FROM public.{User.table_name} WHERE user_id = %s""", (user_id)
+    result_set: Result = db.session.execute(
+        text(f"""SELECT * FROM public.{User.table_name} WHERE user_id = %s"""),
+        (user_id),
     )
 
     row: Row = result_set.first()
 
     if row:
-
         return User(
             user_id=row[0],
             phone=row[1],
@@ -84,16 +123,16 @@ def load_user_from_db(user_id):
 
 
 def get_user_by_email(email: str, user_type: UserType):
-
-    result_set: Result = db.engine.execute(
-        f"""SELECT * FROM public.{User.table_name} WHERE email = %s AND user_type = %s""",
+    result_set: Result = db.session.execute(
+        text(
+            f"""SELECT * FROM public.{User.table_name} WHERE email = %s AND user_type = %s"""
+        ),
         (email, user_type.value),
     )
 
     row: Row = result_set.first()
 
     if row:
-
         return User(
             user_id=row[0],
             phone=row[1],

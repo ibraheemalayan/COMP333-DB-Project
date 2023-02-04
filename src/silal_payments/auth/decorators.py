@@ -2,7 +2,7 @@ from functools import wraps
 
 from flask_login import current_user
 from silal_payments.auth.user_loader import unauthorized
-from silal_payments.models.user import UserType
+from silal_payments.models.users.user import UserType
 
 
 def manager_login_required(func):
