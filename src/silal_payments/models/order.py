@@ -1,7 +1,7 @@
 from sqlalchemy import text
 from silal_payments import db
 from sqlalchemy.engine import Result, Row
-class Order():
+class Order:
     def __init__(self, order_id: int, order_customer: int, order_driver: int, order_status: str, ) -> None:
         self.order_id: int = order_id
         self.order_customer: int = order_customer
@@ -17,6 +17,7 @@ class Order():
                 order_status=self.order_status,
             ),
         ).first()
+        db.session.commit()
         self.order_id = order_id[0]
         return self.order_id
     

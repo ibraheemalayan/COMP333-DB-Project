@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS public.product;
 
 DROP TABLE IF EXISTS public.order;
 
-DROP TABLE IF EXISTS public.delivery;
+DROP TABLE IF EXISTS public.manager;
 
 DROP TABLE IF EXISTS public.seller;
 
