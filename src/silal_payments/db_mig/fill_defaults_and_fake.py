@@ -30,6 +30,8 @@ admin_1.insert_into_db()
 
 from .random_generators import (
     insert_random_customers,
+    insert_random_order_items,
+    insert_random_orders,
     insert_random_transactions,
     insert_random_sellers,
     insert_random_drivers,
@@ -39,6 +41,7 @@ from .random_generators import (
 sellers = insert_random_sellers(15)
 products = insert_random_products(30, sellers)
 customers = insert_random_customers(20)
-
 drivers = insert_random_drivers(10)
 transactions = insert_random_transactions(30, customers, sellers, drivers)
+orders = insert_random_orders(30, customers, drivers)
+order_items = insert_random_order_items(30, orders, products)

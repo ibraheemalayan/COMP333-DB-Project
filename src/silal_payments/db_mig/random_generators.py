@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 from silal_payments import db
+from silal_payments.models.order import Order
+from silal_payments.models.order_item import OrderItem
 from silal_payments.models.transactions.transaction import Transaction, TransactionType
 from silal_payments.models.transactions.company_driver_transaction import (
     CompanyDriverTransaction,
@@ -36,7 +38,8 @@ from random import choice, randint
 # 97056|Ooredoo Group
 # 97059|Palestine Cellular Communications
 
-carriers = ["97252", "97253", "97254", "97256", "97258", "97259", "97056", "97059"]
+carriers = ["97252", "97253", "97254", "97256",
+            "97258", "97259", "97056", "97059"]
 
 
 def get_random_il_e164() -> str:
@@ -225,11 +228,40 @@ def insert_random_products(num_products: int, sellers: list[Seller]):
     return products
 
 
-def load_from_db():
-    """Load all the data from the database"""
-    customers = Customer.query.all()
-    sellers = Seller.query.all()
-    products = Product.query.all()
-    transactions = Transaction.query.all()
+def insert_random_orders(
+    num_orders: int,
+    customers: list[Customer],
+    drivers: list[Driver],
+):
+    """Insert a random number of orders into the database"""
 
-    return customers, sellers, products, transactions
+    # generate random order data
+    orders = []
+    for _ in range(num_orders):
+        orders.append(Order(
+            order_id=0, # auto generated
+            order_customer=random_choice(customers).user_id,
+            order_driver=random_choice(drivers).user_id,
+            order_status = "Potato",
+        ))
+        orders[-1].insert_into_db()
+    return orders
+
+def insert_random_order_items(
+    num_order_items: int,
+    orders: list[Order],
+    products: list[Product],
+):
+    """Insert a random number of order items into the database"""
+
+    # generate random order item data
+    order_items = []
+    for _ in range(num_order_items):
+        order_items.append(OrderItem(
+            order_item_id=0, # auto generated
+            order_item_order=random_choice(orders).order_id,
+            order_item_product=random_choice(products).product_id,
+            order_item_quantity=randint(1, 100),
+        ))
+        order_items[-1].insert_into_db()
+    return order_items
