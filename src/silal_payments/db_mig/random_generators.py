@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from silal_payments import db
-from silal_payments.models.transaction import Transaction, TransactionType
+from silal_payments.models.transactions.transaction import Transaction, TransactionType
 from silal_payments.models.users.customer import Customer
 from silal_payments.models.users.seller import Seller
 from silal_payments.models.users.user import User, UserType
@@ -23,7 +23,6 @@ carriers = ["97252", "97253", "97254", "97256", "97258", "97259", "97056", "9705
 
 
 def get_random_il_e164() -> str:
-
     return "+" + choice(carriers) + "{0:07d}".format(randint(0, 9999999))
 
 
