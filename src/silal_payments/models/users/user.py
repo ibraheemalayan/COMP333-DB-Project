@@ -103,8 +103,9 @@ class User(UserMixin):
 
 def load_user_from_db(user_id):
     result_set: Result = db.session.execute(
-        text(f"""SELECT * FROM public.{User.table_name} WHERE user_id = %s"""),
-        (user_id),
+        text(
+            f"""SELECT * FROM public.{User.table_name} WHERE user_id = :user_id"""
+        ).bindparams(user_id=user_id),
     )
 
     row: Row = result_set.first()
@@ -125,9 +126,8 @@ def load_user_from_db(user_id):
 def get_user_by_email(email: str, user_type: UserType):
     result_set: Result = db.session.execute(
         text(
-            f"""SELECT * FROM public.{User.table_name} WHERE email = %s AND user_type = %s"""
-        ),
-        (email, user_type.value),
+            f"""SELECT * FROM public.{User.table_name} WHERE email = :email AND user_type = user_type"""
+        ).bindparams(email=email, user_type=user_type.value),
     )
 
     row: Row = result_set.first()
