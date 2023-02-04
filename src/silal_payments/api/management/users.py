@@ -1,6 +1,6 @@
 from flask import url_for, redirect, render_template
 from . import management_api
-from silal_payments.models.users.user import User, load_user_from_db
+from silal_payments.models.users.user import User
 
 
 @management_api.route(
@@ -9,7 +9,7 @@ from silal_payments.models.users.user import User, load_user_from_db
 def get_user_by_id(user_id: int):
     """index"""
 
-    user: User = load_user_from_db(user_id=user_id)
+    user: User = User.load_by_id(user_id=user_id)
 
     if user is None:
         return redirect(url_for("shared_api.not_found"))

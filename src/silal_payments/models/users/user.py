@@ -37,7 +37,7 @@ class User(UserMixin):
     def insert_into_db(self) -> int:
         user_id: Row = db.session.execute(
             text(
-                f"""INSERT INTO public.{self.table_name} (phone, user_type, full_name, password_hash, email) VALUES (:phone, :user_type, :full_name, :password_hash, :email) RETURNING user_id""",
+                f"""INSERT INTO public.{self.table_name} (phone, user_type, full_name, password_hash, email) VALUES (:phone, :user_type, :full_name, :password_hash, :email) RETURNING user_id;""",
             ).bindparams(
                 phone=self.phone,
                 user_type=self.user_type.value,
@@ -46,6 +46,8 @@ class User(UserMixin):
                 email=self.email,
             ),
         ).first()
+
+        db.session.commit()
 
         self.user_id = user_id[0]
 
@@ -100,26 +102,26 @@ class User(UserMixin):
         )
 
 
-def load_user_from_db(user_id):
-    result_set: Result = db.session.execute(
-        text(
-            f"""SELECT * FROM public.{User.table_name} WHERE user_id = :user_id"""
-        ).bindparams(user_id=user_id),
-    )
+# def load_user_from_db(user_id):
+#     result_set: Result = db.session.execute(
+#         text(
+#             f"""SELECT * FROM public.{User.table_name} WHERE user_id = :user_id"""
+#         ).bindparams(user_id=user_id),
+#     )
 
-    row: Row = result_set.first()
+#     row: Row = result_set.first()
 
-    if row:
-        return User(
-            user_id=row[0],
-            phone=row[1],
-            user_type=UserType(row[2]),
-            full_name=row[3],
-            password_hash=row[4],
-            email=row[5],
-        )
+#     if row:
+#         return User(
+#             user_id=row[0],
+#             phone=row[1],
+#             user_type=UserType(row[2]),
+#             full_name=row[3],
+#             password_hash=row[4],
+#             email=row[5],
+#         )
 
-    return None
+#     return None
 
 
 def get_user_by_email(email: str, user_type: UserType):
@@ -130,6 +132,8 @@ def get_user_by_email(email: str, user_type: UserType):
     )
 
     row: Row = result_set.first()
+
+    print("row: ", row)
 
     if row:
         return User(
