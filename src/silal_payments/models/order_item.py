@@ -2,13 +2,16 @@ from sqlalchemy import text
 from silal_payments import db
 from sqlalchemy.engine import Result, Row
 
+
 class OrderItem:
-    def __init__(self, order_id: int, product_id:int, quantity:int, price_per_unit: int) -> None:
+    def __init__(
+        self, order_id: int, product_id: int, quantity: int, price_per_unit: int
+    ) -> None:
         self.order_id: int = order_id
         self.product_id: int = product_id
         self.quantity: int = quantity
         self.price_per_unit: int = price_per_unit
-    
+
     def insert_into_db(self) -> int:
         order_item_id: Row = db.session.execute(
             text(
@@ -21,6 +24,9 @@ class OrderItem:
             ),
         ).first()
         db.session.commit()
-        self.order_item_id = order_item_id[0]
+
+        self.product_id = order_item_id[0]
+        self.order_id = order_item_id[1]
+
         print(type(self.order_item_id), self.order_item_id)
         return self.order_item_id
