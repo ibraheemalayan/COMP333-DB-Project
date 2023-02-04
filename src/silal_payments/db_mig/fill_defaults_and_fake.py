@@ -32,9 +32,11 @@ from .random_generators import (
     insert_random_customers,
     insert_random_transactions,
     insert_random_sellers,
+    insert_random_products,
 )
 
 
 transactions = insert_random_transactions(30)
 customers = insert_random_customers(20)
 sellers = insert_random_sellers(15)
+products = insert_random_products(30, sellers)

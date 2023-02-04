@@ -4,6 +4,7 @@ from silal_payments.models.transactions.transaction import Transaction, Transact
 from silal_payments.models.users.customer import Customer
 from silal_payments.models.users.seller import Seller
 from silal_payments.models.users.user import User, UserType
+from silal_payments.models.product import Product
 from faker import Faker
 from random import choice as random_choice, randint
 from werkzeug.security import generate_password_hash
@@ -19,7 +20,8 @@ from random import choice, randint
 # 97056|Ooredoo Group
 # 97059|Palestine Cellular Communications
 
-carriers = ["97252", "97253", "97254", "97256", "97258", "97259", "97056", "97059"]
+carriers = ["97252", "97253", "97254", "97256",
+            "97258", "97259", "97056", "97059"]
 
 
 def get_random_il_e164() -> str:
@@ -111,3 +113,34 @@ def insert_random_transactions(num_transactions: int):
         )
 
         transactions[-1].insert_into_db()
+
+
+def insert_random_products(num_products: int, sellers: list[Seller]):
+    """Insert a random number of products into the database"""
+
+    # generate random product data
+    products = []
+    fake: Faker = Faker()
+    Faker.seed(0)
+    for _ in range(num_products):
+        name = fake.name()
+        price = randint(1, 1000000) / 100.0
+        products.append(
+            Product(
+                product_id=0,  # auto generated
+                product_name=name,
+                product_price=price,
+                product_seller=random_choice(sellers).user_id,
+            )
+        )
+
+        products[-1].insert_into_db()
+    return products
+def load_from_db():
+    """Load all the data from the database"""
+    customers = Customer.query.all()
+    sellers = Seller.query.all()
+    products = Product.query.all()
+    transactions = Transaction.query.all()
+
+    return customers, sellers, products, transactions
