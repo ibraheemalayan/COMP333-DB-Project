@@ -18,6 +18,7 @@ from silal_payments.models.transactions.driver_company_transaction import (
 from silal_payments.models.transactions.seller_company_transaction import (
     SellerCompanyTransaction,
 )
+from silal_payments.models.order import Order
 from silal_payments.models.users.customer import Customer
 from silal_payments.models.users.seller import Seller
 from silal_payments.models.users.driver import Driver
@@ -38,8 +39,7 @@ from random import choice, randint
 # 97056|Ooredoo Group
 # 97059|Palestine Cellular Communications
 
-carriers = ["97252", "97253", "97254", "97256",
-            "97258", "97259", "97056", "97059"]
+carriers = ["97252", "97253", "97254", "97256", "97258", "97259", "97056", "97059"]
 
 
 def get_random_il_e164() -> str:
@@ -145,6 +145,7 @@ def insert_random_transactions(
     customers: list[Customer],
     sellers: list[Seller],
     drivers: list[Driver],
+    orders: list[Order],
 ):
     """Insert a random number of transactions into the database"""
 
@@ -152,7 +153,7 @@ def insert_random_transactions(
     transactions = []
     for i in range(num_transactions):
         transaction_type = random_choice(list(TransactionType))
-        transaction_amount = randint(1, 1000000) / 100.0
+        transaction_amount = randint(1, 1000000) / 10.0
         transaction_date = datetime.now() - timedelta(minutes=randint(1, 60 * 24 * 6))
         if transaction_type == TransactionType.company_driver_transaction:
             transactions.append(
@@ -163,15 +164,7 @@ def insert_random_transactions(
                     driver_id=random_choice(drivers).user_id,
                 )
             )
-        elif transaction_type == TransactionType.customer_company_transaction:
-            transactions.append(
-                CustomerCompanyTransaction(
-                    transaction_id=0,  # auto generated
-                    transaction_amount=transaction_amount,
-                    transaction_date=transaction_date,
-                    customer_id=random_choice(customers).user_id,
-                )
-            )
+
         elif transaction_type == TransactionType.customer_driver_transaction:
             transactions.append(
                 CustomerDriverTransaction(
@@ -202,6 +195,18 @@ def insert_random_transactions(
             )
 
         transactions[-1].insert_into_db()
+
+    for order in orders:
+        transactions.append(
+            CustomerCompanyTransaction(
+                transaction_id=0,  # auto generated
+                transaction_amount=order.total(),
+                transaction_date=transaction_date,
+                customer_id=random_choice(customers).user_id,
+                order_id=order.order_id,
+            )
+        )
+        transactions[-1].insert_into_db()
     return transactions
 
 
@@ -214,7 +219,7 @@ def insert_random_products(num_products: int, sellers: list[Seller]):
     Faker.seed(0)
     for _ in range(num_products):
         name = fake.name()
-        price = randint(1, 1000000) / 100.0
+        price = randint(1, 1000000) / 10.0
         products.append(
             Product(
                 product_id=0,  # auto generated
@@ -238,30 +243,45 @@ def insert_random_orders(
     # generate random order data
     orders = []
     for _ in range(num_orders):
-        orders.append(Order(
-            order_id=0, # auto generated
-            order_customer=random_choice(customers).user_id,
-            order_driver=random_choice(drivers).user_id,
-            order_status = "Potato",
-        ))
+        orders.append(
+            Order(
+                order_id=0,  # auto generated
+                order_customer=random_choice(customers).user_id,
+                order_driver=random_choice(drivers).user_id,
+                order_status="Potato",
+            )
+        )
         orders[-1].insert_into_db()
     return orders
 
+
 def insert_random_order_items(
-    num_order_items: int,
     orders: list[Order],
     products: list[Product],
 ):
     """Insert a random number of order items into the database"""
 
-    # generate random order item data
     order_items = []
-    for _ in range(num_order_items):
-        order_items.append(OrderItem(
-            order_item_id=0, # auto generated
-            order_item_order=random_choice(orders).order_id,
-            order_item_product=random_choice(products).product_id,
-            order_item_quantity=randint(1, 100),
-        ))
-        order_items[-1].insert_into_db()
+
+    for order in orders:
+        p_set = set()
+        for i in range(randint(1, 10)):
+
+            product: Product = random_choice(products)
+
+            while product in p_set:
+                product = random_choice(products)
+
+            p_set.add(product)
+
+            order_items.append(
+                OrderItem(
+                    order_id=order.order_id,
+                    product_id=product.product_id,
+                    quantity=randint(1, 10),
+                    price_per_unit=product.product_price,
+                )
+            )
+            order_items[-1].insert_into_db()
+
     return order_items

@@ -27,4 +27,4 @@ class OrderItem:
 
         self.product_id = order_item_id[0]
         self.order_id = order_item_id[1]
-        return self.order_item_id
+        return (self.product_id, self.order_id)
