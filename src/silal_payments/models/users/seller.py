@@ -1,5 +1,3 @@
-from typing import Self
-
 from sqlalchemy import text
 from silal_payments.models.users.user import User, UserType
 from silal_payments import db
@@ -42,7 +40,7 @@ class Seller(User):
         return f"""Seller: user_id={self.user_id} phone={self.phone} user_type={self.user_type} full_name={self.full_name} email={self.email} bank_account={self.bank_account}"""
 
     @staticmethod
-    def load_by_id(user_id: int) -> Self:
+    def load_by_id(user_id: int):
         """Load a seller from the database"""
 
         user: Row = db.session.execute(

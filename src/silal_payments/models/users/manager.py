@@ -1,4 +1,3 @@
-from typing import Self
 from silal_payments.models.users.user import User, UserType
 from silal_payments import db
 from sqlalchemy.engine import Result, Row

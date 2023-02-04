@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Self
 
 from sqlalchemy import text
 from silal_payments import db
@@ -68,7 +67,7 @@ class User(UserMixin):
         return str(self.user_id)
 
     @staticmethod
-    def load_by_id(user_id: int) -> Self:
+    def load_by_id(user_id: int):
         """Load a seller from the database"""
 
         user: Row = db.session.execute(
