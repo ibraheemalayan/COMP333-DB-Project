@@ -1,7 +1,10 @@
 from silal_payments.auth.decorators import manager_login_required
 from . import management_api
 from flask import render_template
-from silal_payments.models.transaction import Transaction, load_transactions_from_db
+from silal_payments.models.transactions.transaction import (
+    Transaction,
+    load_transactions_from_db,
+)
 
 
 @management_api.route("/", methods=["GET"], subdomain="management")
