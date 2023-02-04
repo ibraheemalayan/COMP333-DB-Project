@@ -11,14 +11,13 @@ class DriverCompanyTransaction(Transaction):
     def __init__(
         self,
         transaction_id: int,
-        transaction_type: TransactionType,
         transaction_amount: float,
         transaction_date: datetime,
         driver_id: int,
     ):
         super().__init__(
             transaction_id,
-            transaction_type.driver_company_transaction,
+            TransactionType.driver_company_transaction,
             transaction_amount,
             transaction_date,
         )

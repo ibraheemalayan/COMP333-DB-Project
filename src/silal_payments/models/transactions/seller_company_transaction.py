@@ -13,14 +13,13 @@ class SellerCompanyTransaction(Transaction):
     def __init__(
         self,
         transaction_id: int,
-        transaction_type: TransactionType,
         transaction_amount: float,
         transaction_date: datetime,
         seller_id: int,
     ):
         super().__init__(
             transaction_id,
-            transaction_type.seller_company_transaction,
+            TransactionType.seller_company_transaction,
             transaction_amount,
             transaction_date,
         )

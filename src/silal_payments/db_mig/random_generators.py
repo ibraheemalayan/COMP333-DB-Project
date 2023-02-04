@@ -1,8 +1,24 @@
 from datetime import datetime, timedelta
 from silal_payments import db
 from silal_payments.models.transactions.transaction import Transaction, TransactionType
+from silal_payments.models.transactions.company_driver_transaction import (
+    CompanyDriverTransaction,
+)
+from silal_payments.models.transactions.customer_company_transaction import (
+    CustomerCompanyTransaction,
+)
+from silal_payments.models.transactions.customer_driver_transaction import (
+    CustomerDriverTransaction,
+)
+from silal_payments.models.transactions.driver_company_transaction import (
+    DriverCompanyTransaction,
+)
+from silal_payments.models.transactions.seller_company_transaction import (
+    SellerCompanyTransaction,
+)
 from silal_payments.models.users.customer import Customer
 from silal_payments.models.users.seller import Seller
+from silal_payments.models.users.driver import Driver
 from silal_payments.models.users.user import User, UserType
 from faker import Faker
 from random import choice as random_choice, randint
@@ -91,23 +107,95 @@ def insert_random_sellers(num_sellers: int):
     return sellers
 
 
-def insert_random_transactions(num_transactions: int):
+def insert_random_drivers(num_drivers: int):
+    # generate random driver data
+    drivers = []
+    fake: Faker = Faker()
+    Faker.seed(0)
+    for i in range(num_drivers):
+        phone = get_random_il_e164()
+        full_name = fake.name()
+        password = "123"
+        pass_hash = generate_password_hash(
+            password, salt_length=8, method="pbkdf2:sha512:200000"
+        )
+        email = fake.email()
+        drivers.append(
+            Driver(
+                user_id=0,  # auto generated
+                phone=phone,
+                full_name=full_name,
+                password_hash=pass_hash,
+                email=email,
+                bank_account=str(fake.credit_card_number()[0:16]),
+            )
+        )
+
+        drivers[-1].insert_into_db()
+
+    return drivers
+
+
+def insert_random_transactions(
+    num_transactions: int,
+    customers: list[Customer],
+    sellers: list[Seller],
+    drivers: list[Driver],
+):
     """Insert a random number of transactions into the database"""
 
     # generate random transaction data
     transactions = []
-
     for i in range(num_transactions):
         transaction_type = random_choice(list(TransactionType))
         transaction_amount = randint(1, 1000000) / 100.0
         transaction_date = datetime.now() - timedelta(minutes=randint(1, 60 * 24 * 6))
-        transactions.append(
-            Transaction(
-                transaction_id=0,  # auto generated
-                transaction_type=transaction_type,
-                transaction_amount=transaction_amount,
-                transaction_date=transaction_date,
+        if transaction_type == TransactionType.company_driver_transaction:
+            transactions.append(
+                CompanyDriverTransaction(
+                    transaction_id=0,  # auto generated
+                    transaction_amount=transaction_amount,
+                    transaction_date=transaction_date,
+                    driver_id=random_choice(drivers).user_id,
+                )
             )
-        )
+        elif transaction_type == TransactionType.customer_company_transaction:
+            transactions.append(
+                CustomerCompanyTransaction(
+                    transaction_id=0,  # auto generated
+                    transaction_amount=transaction_amount,
+                    transaction_date=transaction_date,
+                    customer_id=random_choice(customers).user_id,
+                )
+            )
+        elif transaction_type == TransactionType.customer_driver_transaction:
+            transactions.append(
+                CustomerDriverTransaction(
+                    transaction_id=0,  # auto generated
+                    transaction_amount=transaction_amount,
+                    transaction_date=transaction_date,
+                    customer_id=random_choice(customers).user_id,
+                    driver_id=random_choice(drivers).user_id,
+                )
+            )
+        elif transaction_type == TransactionType.driver_company_transaction:
+            transactions.append(
+                DriverCompanyTransaction(
+                    transaction_id=0,  # auto generated
+                    transaction_amount=transaction_amount,
+                    transaction_date=transaction_date,
+                    driver_id=random_choice(drivers).user_id,
+                )
+            )
+        elif transaction_type == TransactionType.seller_company_transaction:
+            transactions.append(
+                SellerCompanyTransaction(
+                    transaction_id=0,  # auto generated
+                    transaction_amount=transaction_amount,
+                    transaction_date=transaction_date,
+                    seller_id=random_choice(sellers).user_id,
+                )
+            )
 
         transactions[-1].insert_into_db()
+    return transactions
