@@ -56,7 +56,7 @@ class Seller(User):
                 FROM
                     public.{Seller.sub_table_name} LEFT JOIN
                     ON public.{Seller.sub_table_name}=public.{User.table_name}
-                WHERE {User.table_name}.user_id = %d
+                WHERE {User.table_name}.user_id = :user_id
             """
             ).bindparams(user_id=user_id),
         ).first()

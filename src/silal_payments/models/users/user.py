@@ -79,13 +79,12 @@ class User(UserMixin):
                     public.{User.table_name}.user_type,
                     public.{User.table_name}.full_name,
                     public.{User.table_name}.password_hash,
-                    public.{User.table_name}.email,
+                    public.{User.table_name}.email
                 FROM
                     public.{User.table_name}
-                WHERE {User.table_name}.user_id = %d
+                WHERE public.{User.table_name}.user_id = :user_id
             """
-            ),
-            (user_id,),
+            ).bindparams(user_id=user_id),
         ).first()
 
         if user is None:

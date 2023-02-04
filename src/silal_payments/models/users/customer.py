@@ -61,7 +61,7 @@ def load_customer_from_db(user_id: int) -> Customer:
             FROM
                 public.{Customer.sub_table_name} LEFT JOIN
                 ON public.{Customer.sub_table_name}=public.{User.table_name}
-            WHERE {User.table_name}.user_id = %d
+            WHERE {User.table_name}.user_id = :user_id
         """
         ).bindparams(
             user_id=user_id,
