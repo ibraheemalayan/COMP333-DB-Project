@@ -1,37 +1,46 @@
-
-
 DROP TABLE IF EXISTS public.customer_driver_transaction;
+
 DROP TABLE IF EXISTS public.company_driver_transaction;
+
 DROP TABLE IF EXISTS public.seller_company_transaction;
+
 DROP TABLE IF EXISTS public.customer_company_transaction;
+
 DROP TABLE IF EXISTS public.driver_company_transaction;
 
 DROP TABLE IF EXISTS public.transaction;
+
 DROP TYPE IF EXISTS public.transaction_type;
 
 DROP TABLE IF EXISTS public.order_item;
+
 DROP TABLE IF EXISTS public.product;
+
 DROP TABLE IF EXISTS public.order;
 
 DROP TABLE IF EXISTS public.delivery;
+
 DROP TABLE IF EXISTS public.seller;
+
 DROP TABLE IF EXISTS public.driver;
+
 DROP TABLE IF EXISTS public.customer;
 
 DROP TABLE IF EXISTS public.user;
-DROP TYPE IF EXISTS usertype;
 
+DROP TYPE IF EXISTS usertype;
 
 BEGIN;
 
 CREATE TYPE usertype AS ENUM ('manager', 'driver', 'seller', 'customer');
+
 CREATE TYPE transaction_type AS ENUM (
 	'customer_driver_transaction',
 	'customer_company_transaction',
 	'company_driver_transaction',
-	'company_seller_transaction',
-	'company_customer_transaction'
-	);
+	'seller_company_transaction',
+	'driver_company_transaction'
+);
 
 CREATE TABLE IF NOT EXISTS public.user (
 	user_id SERIAL NOT NULL,
@@ -70,7 +79,6 @@ CREATE TABLE IF NOT EXISTS public.driver (
 -- 	CONSTRAINT manager_pkey PRIMARY KEY (user_id),
 -- 	CONSTRAINT manager_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user (user_id) ON UPDATE NO ACTION ON DELETE CASCADE
 -- );
-
 CREATE TABLE IF NOT EXISTS public.product (
 	product_id SERIAL NOT NULL,
 	product_name character varying(64),
@@ -152,9 +160,5 @@ CREATE TABLE IF NOT EXISTS public.company_driver_transaction (
 	CONSTRAINT company_driver_transaction_driver_id_fkey FOREIGN KEY (driver_id) REFERENCES public.driver (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT company_driver_transaction_transaction_id_fkey FOREIGN KEY (transaction_id) REFERENCES public.transaction (transaction_id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
-
-
-
-
 
 COMMIT;
