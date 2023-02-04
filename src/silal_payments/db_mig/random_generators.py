@@ -153,7 +153,7 @@ def insert_random_transactions(
     transactions = []
     for i in range(num_transactions):
         transaction_type = random_choice(list(TransactionType))
-        transaction_amount = randint(1, 1000000) / 10.0
+        transaction_amount = randint(1, 100) / 10.0
         transaction_date = datetime.now() - timedelta(minutes=randint(1, 60 * 24 * 6))
         if transaction_type == TransactionType.company_driver_transaction:
             transactions.append(
