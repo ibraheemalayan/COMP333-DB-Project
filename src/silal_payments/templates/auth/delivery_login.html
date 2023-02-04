@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Silal Login
+{% endblock %}
+
+{% block page_styles %}
+<link href="/static/css/login.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<!-- Section: Design Block -->
+<section class="vh-100">
+  <!-- Jumbotron -->
+  <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: var(--si-ligreen); height: 100vh;">
+    <div class="container">
+      <div class="row gx-lg-5 align-items-center">
+        <div class="col-lg-7 mb-5 mb-lg-0">
+          <h2 class="my-5 display-4 fw-bold ls-tight">
+            Welcome <br />
+            <span style="color: var(--si-green);"> Captains</span>
+          </h2>
+          <p style="color: hsl(217, 10%, 50.8%)">
+            Silal is a Jerusalem based startup, specializing in
+            E-commerce solutions for both ends, customers and business, with focus on Arab community.
+
+            Allowing customers to easily explore and shop from their favoutire local shops, and businesses to expand
+            and grow by listing their products and services in a free online-space, with orders and stock smart
+            management system, delivery service through Silal Captains, expanded payment options and much more.
+          </p>
+        </div>
+
+        <div class="col-lg-4 mb-6 mb-lg-0">
+          <div class="card">
+            <div class="card-body py-5 px-md-5">
+              <form action='/auth/login_submission/' method="post">
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="text-center">
+                  <img src="/static/img/no_border_green.png" alt="logo" style="width: 200px;" />
+                </div>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <input required type="email" id="form3Example4" class="form-control" name="email" />
+                  <label class="form-label" for="form3Example1">Email address</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4 foe">
+                  <input required type="password" id="form3Example4" class="form-control" name="password" />
+                  <label class="form-label" for="form3Example2">Password</label>
+                </div>
+
+                <!-- Checkbox -->
+                <!-- <div class="form-check d-flex justify-content-center mb-4">
+                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+                    <label class="form-check-label" for="form2Example33">
+                      Remember me
+                    </label>
+                  </div> -->
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4" style="background-color: var(--si-green);">
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Jumbotron -->
+</section>
+<!-- Section: Design Block -->
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}

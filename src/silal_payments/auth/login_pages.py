@@ -5,7 +5,6 @@ from flask import render_template, flash
 
 @auth_bp.route("/login/", subdomain="management")
 def management_login():
-
     form = EmailPassLoginForm()
 
     return render_template("auth/login.html", form=form)
@@ -13,10 +12,9 @@ def management_login():
 
 @auth_bp.route("/login/", subdomain="delivery")
 def delivery_login():
-
     form = EmailPassLoginForm()
 
-    return render_template("auth/login/delivery_login.html", form=form)
+    return render_template("auth/delivery_login.html", form=form)
 
 
 # @auth_bp.route("/login/", subdomain="seller")

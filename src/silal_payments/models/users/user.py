@@ -72,56 +72,29 @@ class User(UserMixin):
     def load_by_id(user_id: int):
         """Load a seller from the database"""
 
-        user: Row = db.session.execute(
-            text(
-                f"""
+        query = f"""
                 SELECT
-                    public.{User.table_name}.user_id,
-                    public.{User.table_name}.phone,
-                    public.{User.table_name}.user_type,
-                    public.{User.table_name}.full_name,
-                    public.{User.table_name}.password_hash,
-                    public.{User.table_name}.email
+                   *
                 FROM
                     public.{User.table_name}
                 WHERE public.{User.table_name}.user_id = :user_id
             """
-            ).bindparams(user_id=user_id),
+
+        row: Row = db.session.execute(
+            text(query).bindparams(user_id=user_id),
         ).first()
 
-        if user is None:
+        if row is None:
             return None
 
         return User(
-            user_id=user[0],
-            phone=user[1],
-            user_type=[2],
-            full_name=user[3],
-            password_hash=user[4],
-            email=user[5],
+            user_id=row[0],
+            phone=row[1],
+            user_type=UserType(row[2]),
+            full_name=row[3],
+            password_hash=row[4],
+            email=row[5],
         )
-
-
-# def load_user_from_db(user_id):
-#     result_set: Result = db.session.execute(
-#         text(
-#             f"""SELECT * FROM public.{User.table_name} WHERE user_id = :user_id"""
-#         ).bindparams(user_id=user_id),
-#     )
-
-#     row: Row = result_set.first()
-
-#     if row:
-#         return User(
-#             user_id=row[0],
-#             phone=row[1],
-#             user_type=UserType(row[2]),
-#             full_name=row[3],
-#             password_hash=row[4],
-#             email=row[5],
-#         )
-
-#     return None
 
 
 def get_user_by_email(email: str, user_type: UserType):

@@ -15,7 +15,6 @@ def submit_management_login():
     form: EmailPassLoginForm = EmailPassLoginForm()
 
     if form.validate():
-
         user: User = get_user_by_email(
             email=form.email.data.lower(), user_type=UserType.manager
         )
@@ -23,7 +22,6 @@ def submit_management_login():
         if user is not None and check_password_hash(
             user.password_hash, form.password.data
         ):
-
             session["remember_user"] = form.remember_me.data
 
             if not login_user(user, remember=session["remember_user"]):
@@ -58,7 +56,6 @@ def submit_delivery_login():
     form: EmailPassLoginForm = EmailPassLoginForm()
 
     if form.validate():
-
         user: User = get_user_by_email(
             email=form.email.data.lower(), user_type=UserType.driver
         )
@@ -66,7 +63,6 @@ def submit_delivery_login():
         if user is not None and check_password_hash(
             user.password_hash, form.password.data
         ):
-
             session["remember_user"] = form.remember_me.data
 
             if not login_user(user, remember=session["remember_user"]):
@@ -81,7 +77,7 @@ def submit_delivery_login():
                 or session["next"] is None
                 or not session["next"].startswith("/")
             ):
-                next = url_for("delivery_api.home")
+                next = url_for("delivery_api.delivery_index")
             else:
                 next = session["next"]
                 session.pop("next")

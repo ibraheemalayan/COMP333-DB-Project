@@ -8,11 +8,6 @@ from silal_payments.models.users.user import UserType
 def manager_login_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
-        print("manager_login_required")
-        print("current_user > ", current_user)
-        print(current_user.is_authenticated)
-        print(current_user.user_type)
-
         if (
             not current_user.is_authenticated
             or current_user.user_type != UserType.manager
