@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS public.order (
 	order_driver integer NOT NULL,
 	order_status character varying(20),
 	delivery_fee NUMERIC(4, 2),
-	date timestamp without time zone,
+	order_date timestamp without time zone,
 	CONSTRAINT order_pkey PRIMARY KEY (order_id),
 	CONSTRAINT order_customer_fkey FOREIGN KEY (order_customer) REFERENCES public.customer (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT order_driver_fkey FOREIGN KEY (order_driver) REFERENCES public.driver (user_id) ON UPDATE NO ACTION ON DELETE CASCADE

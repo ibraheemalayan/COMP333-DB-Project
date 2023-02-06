@@ -16,7 +16,7 @@ class Order:
         delivery_fee: float,
         order_date,
         total: float = None,
-    )-> None:
+    ) -> None:
         self.order_id: int = order_id
         self.order_customer: int = order_customer
         self.order_driver: int = order_driver
@@ -28,7 +28,7 @@ class Order:
     def insert_into_db(self) -> int:
         order_id: Row = db.session.execute(
             text(
-                f"""INSERT INTO public.order (order_customer, order_driver, order_status, delivery_fee, date) VALUES (:order_customer, :order_driver, :order_status, :delivery_fee, :order_date) RETURNING order_id""",
+                f"""INSERT INTO public.order (order_customer, order_driver, order_status, delivery_fee, order_date) VALUES (:order_customer, :order_driver, :order_status, :delivery_fee, :order_date) RETURNING order_id""",
             ).bindparams(
                 order_customer=self.order_customer,
                 order_driver=self.order_driver,
@@ -78,7 +78,16 @@ class Order:
 def list_orders():
     result = db.session.execute(
         text(
-            f"""SELECT public.order.*, SUM(price_per_unit * quantity) FROM public.order JOIN public.order_item ON public.order.order_id = public.order_item.order_id gROUP BY public.order.order_id, public.order_item.order_id"""
+            f"""
+            SELECT
+                public.order.*,
+                SUM(price_per_unit * quantity)
+            FROM public.order
+            JOIN public.order_item
+            ON public.order.order_id = public.order_item.order_id
+            GROUP BY public.order.order_id, public.order_item.order_id
+            ORDER BY public.order.order_id
+            """
         )
     )
 

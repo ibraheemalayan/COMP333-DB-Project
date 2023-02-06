@@ -150,7 +150,7 @@ def getAllSellersData():
             Seller(
                 user_id=row[2],
                 phone=row[3],
-                full_name=row[4],
+                full_name=row[5],
                 email=row[7],
                 bank_account=row[1],
                 balance=row[0],
@@ -174,14 +174,28 @@ def company_profit():
 
     print(f"{result[0]}$")
 
+
 def getMonthlyProfit():
-    result = db.session.execute(text(
-        f"""
+    result = db.session.execute(
+        text(
+            f"""
         SELECT
         DATE_TRUNC('month',o.date) as  month,
         sum(o.delivery_fee * 0.4) as profit
         FROM public.order o
         GROUP BY DATE_TRUNC('month',o.date);
         """
-    ))
-    return list((row[0], row[1]) for row in result) # return a list of tuples
+        )
+    )
+    return list((row[0], row[1]) for row in result)  # return a list of tuples
+
+
+def get_order_count():
+    stmt = text(
+        f"""
+            Select Count(*) as number_of_orders
+            from public.order
+        """
+    )
+    result = db.session.execute(stmt).first()
+    print(f"Number of orders= {result[0]}")
