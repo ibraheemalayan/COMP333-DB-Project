@@ -158,3 +158,15 @@ def getAllSellersData():
             )
         )
     return sellers
+
+def getMonthlyProfit():
+    result = db.session.execute(text(
+        f"""
+        SELECT
+        DATE_TRUNC('month',o.date) as  month,
+        sum(o.delivery_fee * 0.4) as profit
+        FROM public.order o
+        GROUP BY DATE_TRUNC('month',o.date);
+        """
+    ))
+    return list((row[0], row[1]) for row in result) # return a list of tuples
