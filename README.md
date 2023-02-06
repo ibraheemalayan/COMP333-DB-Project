@@ -2,6 +2,12 @@
 
 A simple transaction database system for an e-commerce platform.
 
+## Demo
+
+![Admin dashboard](assets/p1.jpeg)
+![driver](assets/p2.jpeg)
+![login](assets/p3.jpeg)
+![transaction form](assets/p4.jpeg)
 
 
 ## [Project Installation](./docs/Setup.md)
