@@ -67,9 +67,11 @@ def showOrderProducts(order_id):
 
 
 class DriverData:
-    def __init__(self, user_id, full_name, bank_account, profit, paid):
+    def __init__(self, user_id, full_name, email, phone, bank_account, profit, paid):
         self.user_id: int = user_id
         self.full_name: str = full_name
+        self.email: str = email
+        self.phone: str = phone
         self.bank_account: str = bank_account
         self.profit: float = profit if profit is not None else 0
         self.paid: float = paid if paid is not None else 0
@@ -83,6 +85,8 @@ def list_drivers_with_balance():
         f"""
         SELECT d.user_id,
                u.full_name,
+               u.email,
+               u.phone,
                d.bank_account,
                s1.Profit * 0.6 as driver_revenue,
                s2.Paid
@@ -111,9 +115,11 @@ def list_drivers_with_balance():
             DriverData(
                 user_id=row[0],
                 full_name=row[1],
-                bank_account=row[2],
-                profit=row[3],
-                paid=row[4],
+                email=row[2],
+                phone=row[3],
+                bank_account=row[4],
+                profit=row[5],
+                paid=row[6],
             )
         )
     return drivers
