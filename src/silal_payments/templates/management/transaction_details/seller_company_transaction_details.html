@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Transaction # {{transaction.transaction_id}}
+{% endblock %}
+
+{% block page_styles %}
+<link href="/static/css/home.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Transaction # {{transaction.transaction_id}}</h1>
+    <h6 class="badge bg-info">Seller - Company</h6>
+
+    <br>
+    <h2>
+        Seller:
+        <a href="/seller/{{seller.user_id}}">
+            {{seller.full_name}}
+        </a>
+    </h2>
+
+    <h4>transaction_date : {{ transaction.transaction_date.strftime('%Y-%m-%d %H:%M') }}</h4>
+    <h4>amount : {{ transaction.transaction_amount }} $</h4>
+
+
+    <br>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}
