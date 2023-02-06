@@ -271,12 +271,14 @@ def seller_company_transactions_filter(seller_id: int):
 
 def getSellerProducts(seller_id: int):
     result = db.session.execute(
-        text(f"""
-SELECT * 
+        text(
+            f"""
+SELECT *
 FROM public.product p
 JOIN public.seller s
 on s.user_id = p.product_seller
-where s.user_id = :user_id""").bindparams(user_id=seller_id)
+where s.user_id = :user_id"""
+        ).bindparams(user_id=seller_id)
     )
     products = [
         Product(
@@ -289,6 +291,8 @@ where s.user_id = :user_id""").bindparams(user_id=seller_id)
     ]
 
     return products
+
+
 def update_product_price(product_id: int, new_price: float):
 
     if new_price < 0:
