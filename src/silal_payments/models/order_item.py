@@ -7,12 +7,18 @@ class OrderItem:
     table_name = "order_item"
 
     def __init__(
-        self, order_id: int, product_id: int, quantity: int, price_per_unit: int
+        self,
+        order_id: int,
+        product_id: int,
+        quantity: int,
+        price_per_unit: int,
+        product_price: int = None,
     ) -> None:
         self.order_id: int = order_id
         self.product_id: int = product_id
         self.quantity: int = quantity
         self.price_per_unit: float = price_per_unit
+        self.product_price: float = product_price
 
     def insert_into_db(self) -> int:
         order_item_id: Row = db.session.execute(
@@ -32,9 +38,7 @@ class OrderItem:
         return (self.product_id, self.order_id)
 
     def load_from_db():
-        result = db.session.execute(
-            text(f"""SELECT * FROM public.order_item""")
-        )
+        result = db.session.execute(text(f"""SELECT * FROM public.order_item"""))
 
         order_items = [
             OrderItem(
