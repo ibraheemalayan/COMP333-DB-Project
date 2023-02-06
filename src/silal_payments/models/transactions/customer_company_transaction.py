@@ -39,3 +39,36 @@ class CustomerCompanyTransaction(Transaction):
 
         db.session.execute(stmt)
         db.session.commit()
+
+
+def load_customer_company_transaction_from_db(
+    transaction_id: int,
+) -> CustomerCompanyTransaction:
+    """Load a customer_company_transaction from the database"""
+    stmt = text(
+        f"""
+        SELECT
+            public.{CustomerCompanyTransaction.sub_table_name}.transaction_id,
+            public.{Transaction.table_name}.transaction_amount,
+            public.{Transaction.table_name}.transaction_date,
+            public.{CustomerCompanyTransaction.sub_table_name}.customer_id,
+            public.{CustomerCompanyTransaction.sub_table_name}.order_id
+        FROM public.{CustomerCompanyTransaction.sub_table_name}
+        INNER JOIN public.{Transaction.table_name}
+        ON public.{CustomerCompanyTransaction.sub_table_name}.transaction_id = public.{Transaction.table_name}.transaction_id
+        WHERE public.{CustomerCompanyTransaction.sub_table_name}.transaction_id = :transaction_id;
+        """
+    ).bindparams(transaction_id=transaction_id)
+    result: Result = db.session.execute(stmt)
+    transaction: Row = result.fetchone()
+
+    if transaction is None:
+        return None
+
+    return CustomerCompanyTransaction(
+        transaction_id=transaction[0],
+        transaction_amount=transaction[1],
+        transaction_date=transaction[2],
+        customer_id=transaction[3],
+        order_id=transaction[4],
+    )
