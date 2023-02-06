@@ -314,3 +314,31 @@ def delete_product(product_id: int):
         db.session.commit()
         if result is None:
             raise ValueError("Product not found")
+
+
+def get_driver_orders(driver_id):
+    stmt = text(
+        f"""
+        SELECT
+        o.order_id,
+        o.order_date,
+        o.delivery_fee
+        FROM
+        public.order o
+        WHERE o.order_driver =:driver_id
+        """
+    ).bindparams(driver_id=driver_id)
+    result = db.session.execute(stmt)
+    orders = []
+    for row in result:
+        orders.append(
+            Order(
+                order_id=row[0],
+                order_date=row[1],
+                delivery_fee=row[2],
+                order_customer=None,
+                order_driver=None,
+                order_status=None,
+            )
+        )
+    return orders

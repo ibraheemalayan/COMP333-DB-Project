@@ -2,6 +2,7 @@ from sqlalchemy import text
 from silal_payments.models.users.user import User, UserType
 from silal_payments import db
 from sqlalchemy.engine import Result, Row
+from silal_payments.models.transactions.transaction import Transaction
 
 
 class Driver(User):
@@ -94,3 +95,44 @@ class Driver(User):
             return 0
 
         return balance[0]
+
+
+def select_company_driver_transactions(driver_id: int):
+    """Get the balance of the driver"""
+    result: Result = db.session.execute(
+        text(
+            f"""
+            SELECT
+                public.transaction.transaction_id,
+                public.transaction.transaction_amount,
+                public.transaction.transaction_date,
+                public.transaction.transaction_type
+            FROM
+                public.transaction
+            JOIN public.driver_company_transaction
+            ON public.driver_company_transaction.transaction_id = public.transaction.transaction_id AND public.driver_company_transaction.driver_id = :driver_id
+            UNION
+            SELECT
+                public.transaction.transaction_id,
+                public.transaction.transaction_amount,
+                public.transaction.transaction_date,
+                public.transaction.transaction_type
+            FROM
+                public.transaction
+            JOIN public.company_driver_transaction
+            ON public.company_driver_transaction.transaction_id = public.transaction.transaction_id AND public.company_driver_transaction.driver_id = :driver_id
+            ORDER BY transaction_date DESC
+        """
+        ).bindparams(driver_id=driver_id)
+    )
+    transactions = []
+    for row in result:
+        transactions.append(
+            Transaction(
+                transaction_id=row[0],
+                transaction_amount=row[1],
+                transaction_date=row[2],
+                transaction_type=row[3],
+            )
+        )
+    return transactions

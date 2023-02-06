@@ -4,6 +4,7 @@ from silal_payments.models.product import Product
 from silal_payments.models.transactions.seller_company_transaction import (
     load_seller_company_transactions_details,
 )
+from silal_payments.models.users.driver import select_company_driver_transactions
 from silal_payments.utils.queries import *
 
 from datetime import datetime
@@ -88,6 +89,25 @@ def test():
 @cli_bp.cli.command("test-update-product-price")
 def test():
     update_product_price(product_id=1, new_price=16.50)
+
+
+@cli_bp.cli.command("test-delete-product")
+def test():
+    delete_product(product_id=1)
+
+
+@cli_bp.cli.command("test-get-driver-orders")
+def test():
+    orders = get_driver_orders(driver_id=44)
+    for order in orders:
+        print(order)
+
+
+@cli_bp.cli.command("test-get-driver-transactions")
+def test():
+    transactions = select_company_driver_transactions(driver_id=44)
+    for transaction in transactions:
+        print(transaction)
 
 
 @cli_bp.cli.command("drop-db")
