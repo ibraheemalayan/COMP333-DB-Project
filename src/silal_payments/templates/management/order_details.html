@@ -14,20 +14,10 @@ Order # {{order_id}}
 <div class="container">
 
     <a href="/orders" class="mb-5 btn btn-dark">Back To Orders</a>
-
-
-
-
     <h1>Order # {{order_id}}</h1>
-
-
     <p>Items Total: {{order_items_total}} $</p>
     <p>Delivery Fee: {{delivery_fee}} $</p>
-
     <p>Total: {{delivery_fee + order_items_total }} $</p>
-
-    <br>
-
     <table class="table table-r table-hover ">
         <thead class="thead-dark">
             <tr>
@@ -42,7 +32,6 @@ Order # {{order_id}}
         </thead>
         <tbody>
     {% for item in items %}
-
     <tr>
         <td class="smaller_td">{{item.product.product_id}}</td>
         <td class="smaller_td">{{item.product.product_name}}</td>
@@ -52,7 +41,6 @@ Order # {{order_id}}
         <td class="smaller_td">{{item.order_price}}</td>
         <td class="smaller_td">{{item.total()}}</td>
     </tr>
-    <br>
 </div>
 {% endfor %}
 
