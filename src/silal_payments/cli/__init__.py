@@ -53,9 +53,12 @@ def test():
     from silal_payments.models.users.seller import Seller
 
     print(getSellersData(Seller.load_by_id(2).user_id))
+
+
 @cli_bp.cli.command("show_monthly_profit")
 def test():
     print(getMonthlyProfit())
+
 
 @cli_bp.cli.command("test_drivers_balance")
 def test():
@@ -65,6 +68,11 @@ def test():
 @cli_bp.cli.command("test-company-profit")
 def test():
     company_profit()
+
+
+@cli_bp.cli.command("test-orders-number")
+def test():
+    get_order_count()
 
 
 @cli_bp.cli.command("drop-db")
