@@ -13,7 +13,7 @@ Order # {{order_id}}
 
 <div class="container">
 
-    <a href="/orders" class="mb-5 btn btn-dark">Back To Orders</a>
+    <button onclick="history.back()" class="mb-5 btn btn-dark">Back To Orders</button>
     <h1>Order # {{order_id}}</h1>
     <p>Items Total: {{order_items_total}} $</p>
     <p>Delivery Fee: {{delivery_fee}} $</p>
@@ -31,16 +31,17 @@ Order # {{order_id}}
             </tr>
         </thead>
         <tbody>
-    {% for item in items %}
-    <tr>
-        <td class="smaller_td">{{item.product.product_id}}</td>
-        <td class="smaller_td">{{item.product.product_name}}</td>
-        <td class="smaller_td"><a href="/sellers/{{item.product.product_seller}}">{{item.seller_name}}</a></td>
-        <td class="smaller_td">{{item.quantity}}</td>
-        <td class="smaller_td">{{item.product.product_price}}</td>
-        <td class="smaller_td">{{item.order_price}}</td>
-        <td class="smaller_td">{{item.total()}}</td>
-    </tr>
+            {% for item in items %}
+            <tr>
+                <td class="smaller_td">{{item.product.product_id}}</td>
+                <td class="smaller_td">{{item.product.product_name}}</td>
+                <td class="smaller_td"><a href="/sellers/{{item.product.product_seller}}">{{item.seller_name}}</a>
+                </td>
+                <td class="smaller_td">{{item.quantity}}</td>
+                <td class="smaller_td">{{item.product.product_price}}</td>
+                <td class="smaller_td">{{item.order_price}}</td>
+                <td class="smaller_td">{{item.total()}}</td>
+            </tr>
 </div>
 {% endfor %}
 

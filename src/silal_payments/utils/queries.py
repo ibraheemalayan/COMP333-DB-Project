@@ -206,10 +206,10 @@ def getMonthlyProfit():
         text(
             f"""
         SELECT
-        DATE_TRUNC('month',o.date) as  month,
+        DATE_TRUNC('month',o.order_date) as month,
         sum(o.delivery_fee * 0.4) as profit
         FROM public.order o
-        GROUP BY DATE_TRUNC('month',o.date);
+        GROUP BY DATE_TRUNC('month',o.order_date);
         """
         )
     )
@@ -221,6 +221,17 @@ def get_order_count():
         f"""
             Select Count(*) as number_of_orders
             from public.order
+        """
+    )
+    result = db.session.execute(stmt).first()
+    return result[0]
+
+
+def get_product_count():
+    stmt = text(
+        f"""
+            Select Count(*)
+            from public.product
         """
     )
     result = db.session.execute(stmt).first()
@@ -314,7 +325,6 @@ where s.user_id = :user_id"""
 
 
 def update_product_price(product_id: int, new_price: float):
-
     if new_price < 0:
         raise ValueError("Price cannot be negative")
 
@@ -357,7 +367,7 @@ def delete_product(product_id: int):
         result = db.session.execute(stmt).first()
         db.session.commit()
         if result is None:
-            raise ValueError("Product not found")
+            raise KeyError("Product not found")
 
 
 def get_driver_orders(driver_id):

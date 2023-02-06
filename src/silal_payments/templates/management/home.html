@@ -10,14 +10,141 @@ Accountant Dashboard
 
 {% block content %}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+
 <div class="container">
-    <h1>Welcome to <span style="color: #00ae42"> Silal's dashboard</span> </h1>
+
     <br>
 
+    <div style="display: flex;justify-content: space-between;">
+
+
+        <div class="card" style="width: 20rem;">
+            <div class="card-body">
+                <div style="display: flex;justify-content: space-between;">
+                    <h5 class="card-title">Total orders </h5>
+                    <h2 style="align-self: flex-end;">{{number_of_orders}}</h2>
+                </div>
+                <h6 class="card-subtitle mb-2 text-muted">Count of all orders</h6>
+                <a href="/orders" class="card-link">View Orders</a>
+            </div>
+        </div>
+        <div class="card" style="width: 20rem;">
+            <div class="card-body">
+                <div style="display: flex;justify-content: space-between;">
+                    <h5 class="card-title">Total profit </h5>
+                    <h2 style="align-self: flex-end;">{{total_profit|round(1)}}</h2>
+                </div>
+                <h6 class="card-subtitle mb-2 text-muted">profit from delivery fee margins</h6>
+                <a href="/transactions" class="card-link">View Transactions</a>
+            </div>
+        </div>
+        <div class="card" style="width: 20rem;">
+            <div class="card-body">
+                <div style="display: flex;justify-content: space-between;">
+                    <h5 class="card-title">Products </h5>
+                    <h2 style="align-self: flex-end;">{{number_of_products}}</h2>
+                </div>
+                <h6 class="card-subtitle mb-2 text-muted">Count of all products</h6>
+                <a href="/sellers" class="card-link">View Sellers</a>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div style="display: flex;justify-content: space-between;">
+
+    <div class="card" style="width: 20rem;">
+            <div class="card-body">
+                <div style="display: flex;justify-content: space-between;">
+                    <h5 class="card-title">Profit per month</h5>
+                </div>
+                <h6 class="card-subtitle mb-2 text-muted">Plot of profit per month for the last 6 months</h6>
+            </div>
+        </div>
+
+    <canvas id="myChart" style="width:70%; max-width: 45rem;"></canvas>
+
+    </div>
+
+
+    <script>
+        var xValues = [
+            {% for profit_month in profit_per_month_list %}
+
+        '{{profit_month[0].strftime("%Y-%m")}}',
+
+
+            {% endfor %}
+        ];
+
+        var yValues = [
+            {% for profit_month in profit_per_month_list %}
+
+        {{ profit_month[1] }},
+
+
+        {% endfor %}
+        ];
+
+
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+
+    <div class="row">
+        <a class="m-4 col-sm btn btn-dark" href="/drivers">Drivers</a>
+        <a class="m-4 col-sm btn btn-dark" href="/sellers">Sellers</a>
+
+
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+    </div>
+    <div class="row">
+        <a class="m-4 col-sm btn btn-dark" href="/transactions">Transactions</a>
+        <a class="m-4 col-sm btn btn-dark" href="/orders">Orders</a>
+
+
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+    </div>
+
+
+
+    <br>
+
+    <br>
+
+
+
     <div>
-        TODOs
-        - add overall reports
-        - add some other data
+
+
+
+
+
     </div>
 
 </div>
