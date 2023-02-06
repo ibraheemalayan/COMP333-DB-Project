@@ -103,6 +103,7 @@ CREATE TABLE IF NOT EXISTS public.order (
 	order_customer integer NOT NULL,
 	order_driver integer NOT NULL,
 	order_status character varying(20),
+	delivery_fee NUMERIC(4, 2),
 	CONSTRAINT order_pkey PRIMARY KEY (order_id),
 	CONSTRAINT order_customer_fkey FOREIGN KEY (order_customer) REFERENCES public.customer (user_id) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT order_driver_fkey FOREIGN KEY (order_driver) REFERENCES public.driver (user_id) ON UPDATE NO ACTION ON DELETE CASCADE

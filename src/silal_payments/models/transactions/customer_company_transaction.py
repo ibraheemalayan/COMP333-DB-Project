@@ -119,6 +119,7 @@ def load_customer_company_transaction_details(transaction_id: int) -> tuple:
             order_customer=None,
             order_driver=None,
             order_status=None,
+            delivery_fee=None,
         ),
         CustomerCompanyTransaction(
             transaction_id=transaction[3],

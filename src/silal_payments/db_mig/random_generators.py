@@ -252,6 +252,7 @@ def insert_random_orders(
                 order_customer=random_choice(customers).user_id,
                 order_driver=random_choice(drivers).user_id,
                 order_status="Potato",
+                delivery_fee=randint(50, 100) / 10.0,
             )
         )
         orders[-1].insert_into_db()
