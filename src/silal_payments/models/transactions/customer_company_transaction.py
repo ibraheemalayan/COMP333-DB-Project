@@ -83,7 +83,7 @@ def load_customer_company_transaction_details(transaction_id: int) -> tuple:
         SELECT
             public.{Customer.table_name}.user_id,
             public.{Customer.table_name}.full_name,
-            public.{Order.table_name}.order_id,
+            public.{CustomerCompanyTransaction.sub_table_name}.order_id,
             public.{CustomerCompanyTransaction.sub_table_name}.transaction_id,
             public.{Transaction.table_name}.transaction_amount,
             public.{Transaction.table_name}.transaction_date
@@ -92,8 +92,6 @@ def load_customer_company_transaction_details(transaction_id: int) -> tuple:
         ON public.{CustomerCompanyTransaction.sub_table_name}.transaction_id = public.{Transaction.table_name}.transaction_id
         INNER JOIN public.{Customer.table_name}
         ON public.{CustomerCompanyTransaction.sub_table_name}.customer_id = public.{Customer.table_name}.user_id
-        INNER JOIN public.{Order.table_name}
-        ON public.{CustomerCompanyTransaction.sub_table_name}.order_id = public.{Order.table_name}.order_id
         WHERE public.{CustomerCompanyTransaction.sub_table_name}.transaction_id = :transaction_id;
         """
     ).bindparams(transaction_id=transaction_id)
@@ -113,13 +111,6 @@ def load_customer_company_transaction_details(transaction_id: int) -> tuple:
             email=None,
             address=None,
             card_number=None,
-        ),
-        Order(
-            order_id=transaction[2],
-            order_customer=None,
-            order_driver=None,
-            order_status=None,
-            delivery_fee=None,
         ),
         CustomerCompanyTransaction(
             transaction_id=transaction[3],

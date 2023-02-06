@@ -52,7 +52,7 @@ class Order:
                 order_id=self.order_id,
             ),
         ).first()
-        return total[0]
+        return total[0] + total[1]
 
     def load_from_db():
         result = db.session.execute(text(f"""SELECT * FROM public.order"""))

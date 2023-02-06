@@ -13,11 +13,14 @@ def order_details(order_id):
 
     items: List[Item] = showOrderProducts(order_id)
 
-    order_total = sum([item.total() for item in items])
+    order_items_total = sum([item.total() for item in items])
+
+    delivery_fee = items[0].delivery_fee
 
     return render_template(
         "management/order_details.html",
         items=items,
         order_id=order_id,
-        order_total=order_total,
+        order_items_total=order_items_total,
+        delivery_fee=delivery_fee,
     )

@@ -15,12 +15,14 @@ class Seller(User):
         password_hash: str,
         email: str,
         bank_account: str,
+        balance = 0,
     ):
         super().__init__(
             user_id, phone, UserType.seller, full_name, password_hash, email
         )
 
         self.bank_account: str = bank_account
+        self.balance: float = balance
 
     def insert_into_db(self):
         super().insert_into_db()
@@ -52,11 +54,12 @@ class Seller(User):
                     public.{User.table_name}.user_type,
                     public.{User.table_name}.full_name,
                     public.{User.table_name}.password_hash,
+                    public.{User.table_name}.email,
                     public.{Seller.sub_table_name}.bank_account
                 FROM
-                    public.{Seller.sub_table_name} LEFT JOIN
-                    ON public.{Seller.sub_table_name}=public.{User.table_name}
-                WHERE {User.table_name}.user_id = :user_id
+                    public.{Seller.sub_table_name} LEFT JOIN public.{User.table_name}
+                    ON public.{Seller.sub_table_name}.user_id=public.{User.table_name}.user_id
+                WHERE public.{User.table_name}.user_id = :user_id
             """
             ).bindparams(user_id=user_id),
         ).first()

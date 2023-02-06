@@ -47,7 +47,10 @@ def test():
         for item in showOrderProducts(order.order_id):
             print(item)
 
-
+@cli_bp.cli.command("show_seller_data")
+def test():
+    from silal_payments.models.users.seller import Seller
+    print(getSellersData(Seller.load_by_id(2).user_id))
 @cli_bp.cli.command("drop-db")
 def drop_db():
     print("\n❕ Dropping Database ...")
