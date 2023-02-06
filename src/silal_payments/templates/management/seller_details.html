@@ -36,7 +36,7 @@ Seller # {{seller.user_id}}
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Date</th>
                     <th>Price</th>
                 </tr>
             </thead>
@@ -52,6 +52,40 @@ Seller # {{seller.user_id}}
             </tbody>
         </table>
 
+        <br>
+
+        <h1 class="heading text-center mb-3">
+            Order Items
+        </h1>
+
+
+        <table class="table table-r table-hover ">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Current Price</th>
+                    <th>Order Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for o in order_items %}
+                <tr>
+                    <td class="smaller_td"><a href="/order/{{o[5]}}">{{o[5]}}</a></td>
+                    <td class="smaller_td">{{o[0]}}</td>
+                    <td class="smaller_td">{{o[1]}}</td>
+                    <td class="smaller_td">{{o[2]}}</td>
+                    <td class="smaller_td">{{o[4]}}</td>
+                    <td class="smaller_td">{{o[3]}}</td>
+                    <td class="smaller_td">{{o[3]*o[4]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
 
     {% endblock %}

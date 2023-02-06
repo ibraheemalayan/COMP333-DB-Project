@@ -4,14 +4,17 @@ from flask import url_for, redirect, render_template
 from silal_payments.auth.decorators import manager_login_required
 from silal_payments.models.product import Product
 from silal_payments.models.users.seller import Seller
-from silal_payments.models.users.driver import Driver
+from silal_payments.models.users.driver import Driver, select_company_driver_transactions
 from silal_payments.utils.queries import (
     get_driver_balance,
+    get_driver_orders,
+    get_seller_orders_items,
     getAllSellersData,
     getSellersData,
     list_drivers_with_balance,
     DriverData,
     getSellerProducts,
+    seller_company_transactions_filter,
 )
 from . import management_api
 from silal_payments.models.users.user import User
@@ -61,8 +64,10 @@ def seller_details(seller_id):
 
     products: List[Product] = getSellerProducts(seller_id)
     seller = getSellersData(seller_id)
+    order_items = get_seller_orders_items(seller_id)
+    transactions =  seller_company_transactions_filter(seller_id)
     return render_template(
-        "management/seller_details.html", products=products, seller=seller
+        "management/seller_details.html", products=products, seller=seller, order_items=order_items, transactions=transactions
     )
 
 
@@ -73,7 +78,9 @@ def seller_details(seller_id):
 def driver_details(driver_id):
     """order details"""
     driver = get_driver_balance(driver_id)
+    transactions = select_company_driver_transactions(driver_id)
+    orders = get_driver_orders(driver_id)
     print(driver.balance)
     return render_template(
-        "management/driver_details.html", driver=driver
+        "management/driver_details.html", driver=driver, transactions=transactions, orders=orders
     )

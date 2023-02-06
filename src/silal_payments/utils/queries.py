@@ -84,7 +84,7 @@ def list_drivers_with_balance():
 
     stmt = text(
         f"""
-        SELECT d.user_id,
+               SELECT d.user_id,
                u.full_name,
                u.email,
                u.phone,
@@ -102,10 +102,9 @@ def list_drivers_with_balance():
            FROM company_driver_transaction
            INNER JOIN public.transaction ON company_driver_transaction.transaction_id=public.transaction.transaction_id
            GROUP BY driver_id) AS s2 ON s2.driver_id = s1.order_driver
-        RIGHT JOIN public.driver AS d ON d.user_id = s2.driver_id
-        LEFT JOIN public.user AS u ON u.user_id = d.user_id
+         JOIN public.driver AS d ON d.user_id = s2.driver_id
+         JOIN public.user AS u ON u.user_id = d.user_id
         ORDER BY d.user_id
-
         """
     )
 
@@ -275,7 +274,8 @@ def get_seller_orders_items(seller_id):
         pr.product_name,
         pr.product_price,
         oi.quantity,
-        oi.price_per_unit
+        oi.price_per_unit,
+        oi.order_id
         FROM
         public.product pr JOIN public.order_item oi
         ON oi.product_id = pr.product_id
@@ -284,19 +284,7 @@ def get_seller_orders_items(seller_id):
     ).bindparams(seller_id=seller_id)
 
     result = db.session.execute(stmt)
-
-    order_items = []
-    for row in result:
-        order_items.append(
-            OrderItem(
-                product_id=row[0],
-                product_name=row[1],
-                product_price=row[2],
-                quantity=row[3],
-                price_per_unit=row[4],
-            )
-        )
-    return order_items
+    return list(list(row) for row in result)
 
 
 def seller_company_transactions_filter(seller_id: int):
