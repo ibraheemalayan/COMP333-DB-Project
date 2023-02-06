@@ -40,7 +40,6 @@ def test_t():
 
 @cli_bp.cli.command("drop-db")
 def drop_db():
-
     print("\n❕ Dropping Database ...")
 
     from silal_payments import db
@@ -64,7 +63,6 @@ def drop_db():
 # TODO Never make this runnable in production
 @cli_bp.cli.command("reset-db-w-sample-data")
 def init_db_with_sample_data():
-
     if not current_app.debug:
         raise Exception("Seriously !")
 
