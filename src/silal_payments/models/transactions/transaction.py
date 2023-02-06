@@ -16,7 +16,6 @@ class TransactionType(Enum):
 
 
 class Transaction:
-
     table_name = "transaction"
 
     def __init__(
@@ -32,7 +31,6 @@ class Transaction:
         self.transaction_date = transaction_date
 
     def insert_into_db(self):
-
         stmt = text(
             f"""INSERT INTO public.{self.table_name} (transaction_type, transaction_amount, transaction_date) VALUES (:transaction_type, :transaction_amount, :transaction_date) RETURNING transaction_id;"""
         ).bindparams(
@@ -53,7 +51,9 @@ class Transaction:
 
 def load_transactions_from_db():
     result = db.session.execute(
-        text(f"""SELECT * FROM public.{Transaction.table_name}""")
+        text(
+            f"""SELECT * FROM public.{Transaction.table_name} ORDER BY transaction_date DESC;"""
+        )
     )
 
     transactions = []
