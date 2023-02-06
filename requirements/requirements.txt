@@ -15,4 +15,5 @@ itsdangerous==2.0.1 #FIXME
 Flask-RESTful
 Flask-Cors
 Flask-Filter
+faker-commerce
 # WTForms-JSON # disabled because we use a fork of it and is a part of the code

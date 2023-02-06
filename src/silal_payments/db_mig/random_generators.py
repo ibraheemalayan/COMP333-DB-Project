@@ -25,6 +25,7 @@ from silal_payments.models.users.driver import Driver
 from silal_payments.models.users.user import User, UserType
 from silal_payments.models.product import Product
 from faker import Faker
+import faker_commerce
 from random import choice as random_choice, randint, shuffle
 from werkzeug.security import generate_password_hash
 
@@ -89,7 +90,7 @@ def insert_random_sellers(num_sellers: int):
     Faker.seed(0)
     for i in range(num_sellers):
         phone = get_random_il_e164()
-        full_name = fake.name()
+        full_name = fake.company()
         password = "123"
         pass_hash = generate_password_hash(
             password, salt_length=8, method="pbkdf2:sha512:200000"
@@ -220,8 +221,9 @@ def insert_random_products(num_products: int, sellers: list[Seller]):
     products = []
     fake: Faker = Faker()
     Faker.seed(0)
+    fake.add_provider(faker_commerce.Provider)
     for _ in range(num_products):
-        name = fake.name()
+        name = fake.ecommerce_name()
         price = randint(1, 1000) / 10.0
         products.append(
             Product(
