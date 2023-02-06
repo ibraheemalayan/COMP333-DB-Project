@@ -19,7 +19,7 @@ Silal Transaction Ledger
   </h1>
 
 
-  <table class="table table-r ">
+  <table class="table table-r table-hover">
     <thead class="thead-dark">
       <tr>
         <th>ID</th>
@@ -31,7 +31,10 @@ Silal Transaction Ledger
     <tbody>
 
       {% for t in transactions %}
-      <tr>
+      <tr
+        onclick="window.location.href = '/transaction/{{transaction_link_prefix[t.transaction_type.name]}}/{{t.transaction_id}}';"
+        style="cursor: pointer">
+
         <td class="smaller_td">{{t.transaction_id}}</td>
         <td class="smaller_td">${{t.transaction_amount}}</td>
 

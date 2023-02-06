@@ -16,9 +16,12 @@ Transaction # {{transaction.transaction_id}}
     <h6 class="badge bg-info">Customer - Company</h6>
 
     <br>
-    <a href="/customers/{{customer.user_id}}">
-        <h2>Customer: {{customer.full_name}}</h2>
-    </a>
+    <h2>
+        Customer:
+        <a href="/customers/{{customer.user_id}}">
+            {{customer.full_name}}
+        </a>
+    </h2>
 
     <h4>transaction_date : {{ transaction.transaction_date.strftime('%Y-%m-%d %H:%M') }}</h4>
     <h4>amount : {{ transaction.transaction_amount }} $</h4>
