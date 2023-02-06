@@ -75,6 +75,16 @@ def test():
     get_order_count()
 
 
+@cli_bp.cli.command("test-seller-orders-items")
+def test():
+    get_seller_orders_items(seller_id=3)
+
+
+@cli_bp.cli.command("test-seller-company-transactions-filter")
+def test():
+    seller_company_transactions_filter(seller_id=3)
+
+
 @cli_bp.cli.command("drop-db")
 def drop_db():
     print("\n❕ Dropping Database ...")

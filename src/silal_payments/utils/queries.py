@@ -199,3 +199,46 @@ def get_order_count():
     )
     result = db.session.execute(stmt).first()
     print(f"Number of orders= {result[0]}")
+
+
+def get_seller_orders_items(seller_id):
+    stmt = text(
+        f"""
+        SELECT
+        pr.product_id,
+        pr.product_name,
+        pr.product_price,
+        oi.quantity,
+        oi.price_per_unit
+        FROM
+        public.product pr JOIN public.order_item oi
+        ON oi.product_id = pr.product_id
+        WHERE pr.product_seller =:seller_id
+        """
+    ).bindparams(seller_id=seller_id)
+
+    result = db.session.execute(stmt)
+
+    for row in result:
+        print(row)
+
+
+def seller_company_transactions_filter(seller_id: int):
+    result = db.session.execute(
+        text(
+            f"""
+        SELECT
+        t.transaction_id,
+        t.transaction_amount,
+        t.transaction_date
+
+        FROM
+        public.seller_company_transaction ct
+        JOIN public.transaction t
+        ON t.transaction_id = ct.transaction_id
+        WHERE ct.seller_id =:seller_id
+        """
+        ).bindparams(seller_id=seller_id)
+    )
+    for row in result:
+        print(row)
