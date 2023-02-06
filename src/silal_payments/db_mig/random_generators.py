@@ -198,7 +198,7 @@ def insert_random_transactions(
         transactions.append(
             CustomerCompanyTransaction(
                 transaction_id=0,  # auto generated
-                transaction_amount=order.total(),
+                transaction_amount=order.load_total(),
                 transaction_date=transaction_date,
                 customer_id=random_choice(customers).user_id,
                 order_id=order.order_id,
@@ -252,6 +252,7 @@ def insert_random_orders(
                 order_customer=random_choice(customers).user_id,
                 order_driver=random_choice(drivers).user_id,
                 order_status="Potato",
+                order_date=datetime.now() - timedelta(minutes=randint(1, 60 * 24 * 90)),
                 delivery_fee=randint(50, 100) / 10.0,
             )
         )

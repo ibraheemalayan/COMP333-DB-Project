@@ -1,3 +1,4 @@
+import datetime
 from sqlalchemy import text
 from silal_payments import db
 from sqlalchemy.engine import Result, Row
@@ -13,24 +14,27 @@ class Order:
         order_driver: int,
         order_status: str,
         delivery_fee: float,
+        order_date,
         total: float = None,
-    ) -> None:
+    )-> None:
         self.order_id: int = order_id
         self.order_customer: int = order_customer
         self.order_driver: int = order_driver
         self.order_status: str = order_status
         self.delivery_fee: float = delivery_fee
         self.total: float = total
+        self.order_date = order_date
 
     def insert_into_db(self) -> int:
         order_id: Row = db.session.execute(
             text(
-                f"""INSERT INTO public.order (order_customer, order_driver, order_status, delivery_fee) VALUES (:order_customer, :order_driver, :order_status, :delivery_fee) RETURNING order_id""",
+                f"""INSERT INTO public.order (order_customer, order_driver, order_status, delivery_fee, date) VALUES (:order_customer, :order_driver, :order_status, :delivery_fee, :order_date) RETURNING order_id""",
             ).bindparams(
                 order_customer=self.order_customer,
                 order_driver=self.order_driver,
                 order_status=self.order_status,
                 delivery_fee=self.delivery_fee,
+                order_date=self.order_date,
             ),
         ).first()
         db.session.commit()
