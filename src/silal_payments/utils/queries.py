@@ -8,6 +8,7 @@ from silal_payments.models.users.user import User
 from silal_payments.models.users.seller import Seller
 from silal_payments.models.users.customer import Customer
 from silal_payments.models.users.driver import Driver
+from silal_payments.models.transactions.transaction import Transaction, TransactionType
 
 
 # define a class for the result
@@ -237,7 +238,7 @@ def company_profit():
 
     result = db.session.execute(stmt).first()
 
-    print(f"{result[0]}$")
+    return result[0]
 
 
 def getMonthlyProfit():
@@ -263,7 +264,7 @@ def get_order_count():
         """
     )
     result = db.session.execute(stmt).first()
-    print(f"Number of orders= {result[0]}")
+    return result[0]
 
 
 def get_seller_orders_items(seller_id):
@@ -284,8 +285,18 @@ def get_seller_orders_items(seller_id):
 
     result = db.session.execute(stmt)
 
+    order_items = []
     for row in result:
-        print(row)
+        order_items.append(
+            OrderItem(
+                product_id=row[0],
+                product_name=row[1],
+                product_price=row[2],
+                quantity=row[3],
+                price_per_unit=row[4],
+            )
+        )
+    return order_items
 
 
 def seller_company_transactions_filter(seller_id: int):
@@ -305,8 +316,17 @@ def seller_company_transactions_filter(seller_id: int):
         """
         ).bindparams(seller_id=seller_id)
     )
+    transaction = []
     for row in result:
-        print(row)
+        transaction.append(
+            Transaction(
+                transaction_id=row[0],
+                transaction_amount=row[1],
+                transaction_date=row[2],
+                transaction_type=TransactionType.seller_company_transaction,
+            )
+        )
+    return transaction
 
 
 def getSellerProducts(seller_id: int):

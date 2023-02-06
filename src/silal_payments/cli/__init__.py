@@ -63,27 +63,35 @@ def test():
 
 @cli_bp.cli.command("test_drivers_balance")
 def test():
-    list_drivers_with_balance()
+    drivers = list_drivers_with_balance()
+    for driver in drivers:
+        print(driver)
 
 
 @cli_bp.cli.command("test-company-profit")
 def test():
-    company_profit()
+    profit = company_profit()
+    print(profit)
 
 
 @cli_bp.cli.command("test-orders-number")
 def test():
-    get_order_count()
+    count = get_order_count()
+    print(count)
 
 
 @cli_bp.cli.command("test-seller-orders-items")
 def test():
-    get_seller_orders_items(seller_id=3)
+    order_items = get_seller_orders_items(seller_id=3)
+    for order_item in order_items:
+        print(order_item)
 
 
 @cli_bp.cli.command("test-seller-company-transactions-filter")
 def test():
-    seller_company_transactions_filter(seller_id=3)
+    transactions = seller_company_transactions_filter(seller_id=3)
+    for transaction in transactions:
+        print(transaction)
 
 
 @cli_bp.cli.command("test-update-product-price")
