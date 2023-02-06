@@ -64,7 +64,14 @@ def showOrderProducts(order_id):
             )
         )
     return Items
-
+class DriverData:
+    def __init__(self, user_id, full_name, bank_account, profit, paid):
+        self.user_id: int = user_id
+        self.full_name: str = full_name
+        self.bank_account: str = bank_account
+        self.profit: float = profit if profit is not None else 0
+        self.paid: float = paid if paid is not None else 0
+        self.balance: float = self.profit - self.paid
 
 def list_drivers_with_balance():
     """list all drivers with balance"""
@@ -95,9 +102,12 @@ def list_drivers_with_balance():
     )
 
     result = db.session.execute(stmt)
-
+    drivers = []
     for row in result:
-        print(row)
+        drivers.append(
+            DriverData(user_id=row[0], full_name=row[1], bank_account=row[2], profit=row[3], paid=row[4])
+        )
+    return drivers
 
 
 def getSellersData(sellerId: int):

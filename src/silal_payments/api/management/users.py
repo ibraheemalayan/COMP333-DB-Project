@@ -3,7 +3,8 @@ from flask import url_for, redirect, render_template
 
 from silal_payments.auth.decorators import manager_login_required
 from silal_payments.models.users.seller import Seller
-from silal_payments.utils.queries import getAllSellersData
+from silal_payments.models.users.driver import Driver
+from silal_payments.utils.queries import getAllSellersData, list_drivers_with_balance, DriverData
 from . import management_api
 from silal_payments.models.users.user import User
 
@@ -31,3 +32,12 @@ def sellers_list_page():
     sellers: List[Seller] = getAllSellersData()
 
     return render_template("management/sellers.html", sellers=sellers)
+
+@management_api.route("/drivers/", methods=["GET"], subdomain="management")
+@manager_login_required
+def drivers_list_page():
+    """orders table"""
+
+    drivers: List[DriverData] = list_drivers_with_balance()
+
+    return render_template("management/drivers.html", drivers=drivers)
