@@ -79,11 +79,11 @@ class Driver(User):
             text(
                 f"""
                 SELECT
-                    SUM(public.{DriverCompanyTransaction.sub_table_name}.transaction_amount)
+                    SUM(public.driver_company_transaction.transaction_amount)
                 FROM
-                    public.{DriverCompanyTransaction.sub_table_name}
+                    public.driver_company_transaction
                 WHERE
-                    public.{DriverCompanyTransaction.sub_table_name}.driver_id = :driver_id
+                    public.driver_company_transaction.driver_id = :driver_id
             """
             ).bindparams(driver_id=self.user_id),
         )

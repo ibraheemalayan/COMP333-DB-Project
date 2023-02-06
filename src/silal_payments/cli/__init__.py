@@ -85,6 +85,11 @@ def test():
     seller_company_transactions_filter(seller_id=3)
 
 
+@cli_bp.cli.command("test-update-product-price")
+def test():
+    update_product_price(product_id=1, new_price=16.50)
+
+
 @cli_bp.cli.command("drop-db")
 def drop_db():
     print("\n❕ Dropping Database ...")
