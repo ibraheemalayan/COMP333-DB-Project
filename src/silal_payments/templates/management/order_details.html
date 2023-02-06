@@ -28,28 +28,33 @@ Order # {{order_id}}
 
     <br>
 
-
+    <table class="table table-r table-hover ">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Seller</th>
+                <th>Quantity</th>
+                <th>Current Price</th>
+                <th>Order Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
     {% for item in items %}
 
-    <br>
-    <br>
-    <br>
-
-    <h3>Product # {{item.product.product_id}}</h3>
-
-    product_name : {{ item.product.product_name }} <br>
-    <a href="/sellers/{{item.product.seller_id}}"></a> seller : {{ item.seller_name }}</a> <br>
-    quantity : {{ item.quantity }} <br>
-    price_per_unit : {{ item.order_price }} <br>
-    current_product_price : {{ item.product.product_price }} <br>
-
-    total : {{ item.total() }}
-
-    {% endfor %}
-
+    <tr>
+        <td class="smaller_td">{{item.product.product_id}}</td>
+        <td class="smaller_td">{{item.product.product_name}}</td>
+        <td class="smaller_td"><a href="/sellers/{{item.product.product_seller}}">{{item.seller_name}}</a></td>
+        <td class="smaller_td">{{item.quantity}}</td>
+        <td class="smaller_td">{{item.product.product_price}}</td>
+        <td class="smaller_td">{{item.order_price}}</td>
+        <td class="smaller_td">{{item.total()}}</td>
+    </tr>
     <br>
 </div>
-
+{% endfor %}
 
 {% endblock %}
 
