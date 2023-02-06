@@ -130,7 +130,7 @@ def getSellersData(sellerId: int):
     return Seller(
         user_id=result[2],
         phone=result[3],
-        full_name=result[4],
+        full_name=result[5],
         email=result[7],
         bank_account=result[1],
         balance=result[0],
@@ -252,3 +252,25 @@ def seller_company_transactions_filter(seller_id: int):
     )
     for row in result:
         print(row)
+
+
+def getSellerProducts(seller_id: int):
+    result = db.session.execute(
+        text(f"""
+SELECT * 
+FROM public.product p
+JOIN public.seller s
+on s.user_id = p.product_seller
+where s.user_id = :user_id""").bindparams(user_id=seller_id)
+    )
+    products = [
+        Product(
+            product_id=row[0],
+            product_name=row[1],
+            product_price=row[2],
+            product_seller=row[3],
+        )
+        for row in result
+    ]
+
+    return products

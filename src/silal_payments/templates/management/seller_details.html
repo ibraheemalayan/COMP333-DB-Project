@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Order # {{order_id}}
+{% endblock %}
+
+{% block page_styles %}
+<link href="/static/css/home.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+
+    <a href="/sellers" class="mb-5 btn btn-dark">Back To Sellers</a>
+
+
+
+
+    <h1>Seller: {{seller.full_name}}</h1>
+    <p>ID: {{seller.user_id}} </p>
+    <p>Phone: {{seller.phone}} </p>
+    <p>Email: {{seller.email}} </p>
+    <p>Bank Account: {{seller.bank_account}} </p>
+    <p>Balance: {{seller.balance}} </p>
+
+    <br>
+
+
+
+    <br>
+    <br>
+    <br>
+
+
+        <h1 class="heading text-center mb-3">
+            Products
+        </h1>
+
+
+        <table class="table table-r table-hover ">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for s in products %}
+                <tr>
+                    <td class="smaller_td">{{s.product_id}}</td>
+                    <td class="smaller_td">{{s.product_name}}</td>
+                    <td class="smaller_td">{{s.product_price}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+
+    {% endblock %}
+
+    {% block scripts %}
+    {{ super() }}
+    {% endblock %}
