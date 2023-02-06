@@ -31,7 +31,7 @@ Silal Transaction Ledger
       <tr onclick="window.location.href = '/order/{{o.order_id}}';" style="cursor: pointer">
         <td class="smaller_td">{{o.order_id}}</td>
         <td class="smaller_td">${{o.total}}</td>
-        <td class="smaller_td">TODO</td>
+        <td class="smaller_td">{{o.order_date.strftime('%Y-%m-%d %H:%M')}}</td>
 
       </tr>
       {% endfor %}

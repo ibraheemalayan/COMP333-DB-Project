@@ -89,7 +89,8 @@ def list_orders():
             order_driver=row[2],
             order_status=row[3],
             delivery_fee=row[4],
-            total=row[5],
+            order_date=row[5],
+            total=row[6],
         )
         for row in result
     ]
