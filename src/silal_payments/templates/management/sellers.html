@@ -1,19 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sellers</title>
-</head>
+{% block title %}
+Sellers
+{% endblock %}
 
-<body>
+{% block page_styles %}
+<link href="/static/css/transaction_ledger.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1 class="heading text-center mb-3">
+        Sellers
+    </h1>
 
 
+    <table class="table table-r table-hover ">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Bank Account</th>
+                <th>Balance From Silal</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for s in sellers %}
+            <tr onclick="window.location.href = '/sellers/{{s.user_id}}';" style="cursor: pointer">
+                <td class="smaller_td">{{s.user_id}}</td>
+                <td class="smaller_td">{{s.full_name}}</td>
+                <td class="smaller_td">{{s.phone}}</td>
+                <td class="smaller_td">{{s.email}}</td>
+                <td class="smaller_td">{{s.bank_account}}</td>
+                <td class="smaller_td">{{s.balance}} $</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 
+{% endblock %}
 
-</body>
-
-</html>
+{% block scripts %}
+{{ super() }}
+{% endblock %}
