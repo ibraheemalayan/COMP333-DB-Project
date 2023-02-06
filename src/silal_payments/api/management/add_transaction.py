@@ -12,7 +12,7 @@ from silal_payments.models.transactions.seller_company_transaction import (
 )
 
 from silal_payments import db
-from silal_payments.models.users.user import User
+from silal_payments.models.users.user import User, UserType
 
 from . import management_api
 
@@ -64,9 +64,7 @@ def new_transaction():
     return render_template("management/form.html", form=form, title="New Transaction")
 
 
-@management_api.route(
-    "/new_transaction_submission/", methods=["POST"], subdomain="management"
-)
+@management_api.route("/new_transaction/", methods=["POST"], subdomain="management")
 def submit_management_login():
     """API that handles the transaction form submission   [TESTED]"""
 
@@ -75,10 +73,19 @@ def submit_management_login():
     if form.validate():
         user: User = User.load_by_id(form.user_id.data)
 
-        t_type = TransactionType(int(form.transaction_type.data))
+        t_type = TransactionType(form.transaction_type.data)
 
-        if user is None or user.user_type != t_type:
-            flash("User with this Type, ID was not found", category="error")
+        u_type = (
+            UserType.driver
+            if t_type == TransactionType.company_driver_transaction
+            else UserType.seller
+        )
+
+        if user is None or user.user_type != u_type:
+            flash(
+                "User with this ID was not found or does not have the selected type",
+                category="error",
+            )
             return redirect(url_for("management_api.new_transaction"))
 
         if t_type == TransactionType.company_driver_transaction:
