@@ -2,6 +2,12 @@
 
 A simple transaction database system for an e-commerce platform.
 
+## Contributers
+
+* Nidal Zabadi 1200153
+* Mohammad Abu Shelbaia 1200198
+* Ibraheem Alyan 1201180
+
 ## Demo
 
 ![Admin dashboard](assets/p1.jpeg)
