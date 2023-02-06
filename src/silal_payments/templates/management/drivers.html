@@ -10,9 +10,9 @@ Drivers
 
 {% block content %}
 
-<div class="container">
+<div class="p-4">
 
-    <h1 class="heading text-center mb-3">
+    <h1 class="heading mt-1 text-center">
         Drivers
     </h1>
 
@@ -27,7 +27,8 @@ Drivers
                 <th>Bank Account</th>
                 <th>Profit</th>
                 <th>Paid</th>
-                <th>Balance From Silal</th>
+                <th>Balance</th>
+                <th>Transaction</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +43,10 @@ Drivers
                 <td class="smaller_td">{{s.profit}} $</td>
                 <td class="smaller_td">{{s.paid}} $</td>
                 <td class="smaller_td">{{s.balance}} $</td>
+                <td class="smaller_td col-md-2">
+                    <a class="btn btn-outline-info" href="/new_transaction/?user_id={{s.user_id}}&&t_type=1"
+                        role="button">New Transaction</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

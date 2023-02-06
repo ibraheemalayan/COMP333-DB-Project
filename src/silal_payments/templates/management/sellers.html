@@ -10,9 +10,9 @@ Sellers
 
 {% block content %}
 
-<div class="container">
+<div class="p-4">
 
-    <h1 class="heading text-center mb-3">
+    <h1 class="heading mt-1 text-center">
         Sellers
     </h1>
 
@@ -25,7 +25,8 @@ Sellers
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Bank Account</th>
-                <th>Balance From Silal</th>
+                <th>Balance</th>
+                <th>Transaction</th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +39,10 @@ Sellers
                 <td class="smaller_td">{{s.email}}</td>
                 <td class="smaller_td">{{s.bank_account}}</td>
                 <td class="smaller_td">{{s.balance}} $</td>
+                <td class="smaller_td col-md-2">
+                    <a class="btn btn-outline-info" href="/new_transaction/?user_id={{s.user_id}}&&t_type=2"
+                        role="button">New Transaction</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
