@@ -1,9 +1,7 @@
 from flask import Blueprint, current_app
 from sqlalchemy import text
 from silal_payments.models.product import Product
-from silal_payments.models.transactions.company_driver_transaction import (
-    CompanyDriverTransaction,
-    load_company_driver_transaction_from_db,
+from silal_payments.models.transactions.customer_company_transaction import (
     load_transaction_details,
 )
 from datetime import datetime
@@ -31,11 +29,13 @@ def test():
 @cli_bp.cli.command("test-company-driver-transaction")
 def test_t():
 
-    info = load_transaction_details(transaction_id=26)
+    info = load_transaction_details(transaction_id=3)
     print("_" * 20)
     print(info[0])
     print("_" * 20)
     print(info[1])
+    print("_" * 20)
+    print(info[2])
 
 
 @cli_bp.cli.command("drop-db")

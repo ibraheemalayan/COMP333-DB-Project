@@ -4,6 +4,8 @@ from sqlalchemy.engine import Result, Row
 
 
 class Order:
+    table_name = "order"
+
     def __init__(
         self,
         order_id: int,

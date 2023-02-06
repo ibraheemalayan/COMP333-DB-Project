@@ -41,34 +41,34 @@ class CustomerDriverTransaction(Transaction):
         db.session.commit()
 
 
-def load_customer_driver_transaction_from_db(
-    transaction_id: int,
-) -> CustomerDriverTransaction:
-    """Load a customer_driver_transaction from the database"""
-    stmt = text(
-        f"""
-        SELECT
-            public.{CustomerDriverTransaction.sub_table_name}.transaction_id,
-            public.{Transaction.table_name}.transaction_amount,
-            public.{Transaction.table_name}.transaction_date,
-            public.{CustomerDriverTransaction.sub_table_name}.customer_id,
-            public.{CustomerDriverTransaction.sub_table_name}.driver_id
-        FROM public.{CustomerDriverTransaction.sub_table_name}
-        INNER JOIN public.{Transaction.table_name}
-        ON public.{CustomerDriverTransaction.sub_table_name}.transaction_id = public.{Transaction.table_name}.transaction_id
-        WHERE public.{CustomerDriverTransaction.sub_table_name}.transaction_id = :transaction_id;
-        """
-    ).bindparams(transaction_id=transaction_id)
-    result: Result = db.session.execute(stmt)
-    transaction: Row = result.first()
+# def load_customer_driver_transaction_from_db(
+#     transaction_id: int,
+# ) -> CustomerDriverTransaction:
+#     """Load a customer_driver_transaction from the database"""
+#     stmt = text(
+#         f"""
+#         SELECT
+#             public.{CustomerDriverTransaction.sub_table_name}.transaction_id,
+#             public.{Transaction.table_name}.transaction_amount,
+#             public.{Transaction.table_name}.transaction_date,
+#             public.{CustomerDriverTransaction.sub_table_name}.customer_id,
+#             public.{CustomerDriverTransaction.sub_table_name}.driver_id
+#         FROM public.{CustomerDriverTransaction.sub_table_name}
+#         INNER JOIN public.{Transaction.table_name}
+#         ON public.{CustomerDriverTransaction.sub_table_name}.transaction_id = public.{Transaction.table_name}.transaction_id
+#         WHERE public.{CustomerDriverTransaction.sub_table_name}.transaction_id = :transaction_id;
+#         """
+#     ).bindparams(transaction_id=transaction_id)
+#     result: Result = db.session.execute(stmt)
+#     transaction: Row = result.first()
 
-    if transaction is None:
-        return None
+#     if transaction is None:
+#         return None
 
-    return CustomerDriverTransaction(
-        transaction_id=transaction[0],
-        transaction_amount=transaction[1],
-        transaction_date=transaction[2],
-        customer_id=transaction[3],
-        driver_id=transaction[4],
-    )
+#     return CustomerDriverTransaction(
+#         transaction_id=transaction[0],
+#         transaction_amount=transaction[1],
+#         transaction_date=transaction[2],
+#         customer_id=transaction[3],
+#         driver_id=transaction[4],
+#     )
