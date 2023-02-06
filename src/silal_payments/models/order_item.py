@@ -30,3 +30,22 @@ class OrderItem:
         self.product_id = order_item_id[0]
         self.order_id = order_item_id[1]
         return (self.product_id, self.order_id)
+
+    def load_from_db():
+        result = db.session.execute(
+            text(f"""SELECT * FROM public.order_item""")
+        )
+
+        order_items = [
+            OrderItem(
+                order_id=row[0],
+                product_id=row[1],
+                quantity=row[2],
+                price_per_unit=row[3],
+            )
+            for row in result
+        ]
+        return order_items
+
+    def __str__(self):
+        return f"""OrderItem: order_id={self.order_id} product_id={self.product_id} quantity={self.quantity} price_per_unit={self.price_per_unit}"""

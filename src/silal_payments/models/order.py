@@ -44,3 +44,19 @@ class Order:
             ),
         ).first()
         return total[0]
+
+    def load_from_db():
+        result = db.session.execute(
+            text(f"""SELECT * FROM public.order""")
+        )
+
+        orders = [
+            Order(
+                order_id=row[0],
+                order_customer=row[1],
+                order_driver=row[2],
+                order_status=row[3],
+            )
+            for row in result
+        ]
+        return orders

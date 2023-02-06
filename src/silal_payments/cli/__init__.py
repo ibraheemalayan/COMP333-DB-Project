@@ -4,6 +4,8 @@ from silal_payments.models.product import Product
 from silal_payments.models.transactions.customer_driver_transaction import (
     load_customer_driver_transaction_details,
 )
+from silal_payments.utils.queries import *
+
 from datetime import datetime
 
 
@@ -36,6 +38,16 @@ def test_t():
     print(info[1])
     print("_" * 20)
     print(info[2])
+
+
+@cli_bp.cli.command("show_order_products")
+def test():
+    from silal_payments.models.order import Order
+
+    for order in Order.load_from_db():
+        print(order)
+        for item in showOrderProducts(order.order_id):
+            print(item)
 
 
 @cli_bp.cli.command("drop-db")
