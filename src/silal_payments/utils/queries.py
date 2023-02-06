@@ -74,7 +74,7 @@ def list_drivers_with_balance():
         SELECT d.user_id,
                u.full_name,
                d.bank_account,
-               s1.Profit,
+               s1.Profit * 0.6 as driver_revenue,
                s2.Paid
         FROM
           (SELECT order_driver,
@@ -158,6 +158,21 @@ def getAllSellersData():
             )
         )
     return sellers
+
+
+def company_profit():
+    """company profits from delivery fees"""
+
+    stmt = text(
+        f"""
+        Select Sum(delivery_fee) * .4 as company_profit
+        from public.order
+        """
+    )
+
+    result = db.session.execute(stmt).first()
+
+    print(f"{result[0]}$")
 
 def getMonthlyProfit():
     result = db.session.execute(text(
