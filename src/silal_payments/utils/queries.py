@@ -64,6 +64,8 @@ def showOrderProducts(order_id):
             )
         )
     return Items
+
+
 class DriverData:
     def __init__(self, user_id, full_name, bank_account, profit, paid):
         self.user_id: int = user_id
@@ -72,6 +74,7 @@ class DriverData:
         self.profit: float = profit if profit is not None else 0
         self.paid: float = paid if paid is not None else 0
         self.balance: float = self.profit - self.paid
+
 
 def list_drivers_with_balance():
     """list all drivers with balance"""
@@ -105,7 +108,13 @@ def list_drivers_with_balance():
     drivers = []
     for row in result:
         drivers.append(
-            DriverData(user_id=row[0], full_name=row[1], bank_account=row[2], profit=row[3], paid=row[4])
+            DriverData(
+                user_id=row[0],
+                full_name=row[1],
+                bank_account=row[2],
+                profit=row[3],
+                paid=row[4],
+            )
         )
     return drivers
 
@@ -252,3 +261,50 @@ def seller_company_transactions_filter(seller_id: int):
     )
     for row in result:
         print(row)
+
+
+def update_product_price(product_id: int, new_price: float):
+
+    if new_price < 0:
+        raise ValueError("Price cannot be negative")
+
+    stmt = text(
+        f"""
+        UPDATE public.product
+        SET product_price = :new_price
+        WHERE product_id = :product_id
+        RETURNING *
+        """
+    ).bindparams(product_id=product_id, new_price=new_price)
+
+    result = db.session.execute(stmt).first()
+    db.session.commit()
+
+    if result is None:
+        raise ValueError("Product not found")
+
+
+def delete_product(product_id: int):
+    stmt0 = text(
+        f"""
+        SELECT COUNT(*)
+        FROM public.order_item
+        WHERE product_id = :product_id
+        """
+    ).bindparams(product_id=product_id)
+
+    result0 = db.session.execute(stmt0).first()
+    if result0[0] > 0:
+        raise ValueError("Cannot delete product that has been ordered")
+    else:
+        stmt = text(
+            f"""
+            DELETE FROM public.product
+            WHERE product_id = :product_id
+            RETURNING *
+            """
+        ).bindparams(product_id=product_id)
+        result = db.session.execute(stmt).first()
+        db.session.commit()
+        if result is None:
+            raise ValueError("Product not found")
