@@ -6,6 +6,7 @@ from silal_payments.models.product import Product
 from silal_payments.models.users.seller import Seller
 from silal_payments.models.users.driver import Driver
 from silal_payments.utils.queries import (
+    get_driver_balance,
     getAllSellersData,
     getSellersData,
     list_drivers_with_balance,
@@ -56,10 +57,23 @@ def drivers_list_page():
 )
 @manager_login_required
 def seller_details(seller_id):
-    """order details"""
+    """seller details"""
 
     products: List[Product] = getSellerProducts(seller_id)
     seller = getSellersData(seller_id)
     return render_template(
         "management/seller_details.html", products=products, seller=seller
+    )
+
+
+@management_api.route(
+    "/drivers/<int:driver_id>/", methods=["GET"], subdomain="management"
+)
+@manager_login_required
+def driver_details(driver_id):
+    """order details"""
+    driver = get_driver_balance(driver_id)
+    print(driver.balance)
+    return render_template(
+        "management/driver_details.html", driver=driver
     )

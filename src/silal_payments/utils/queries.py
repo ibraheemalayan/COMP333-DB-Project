@@ -124,6 +124,46 @@ def list_drivers_with_balance():
         )
     return drivers
 
+def get_driver_balance(driver_id):
+    """list all drivers with balance"""
+
+    stmt = text(
+        f"""
+        SELECT d.user_id,
+               u.full_name,
+               u.email,
+               u.phone,
+               d.bank_account,
+               s1.Profit * 0.6 as driver_revenue,
+               s2.Paid
+        FROM
+          (SELECT order_driver,
+                  Sum(delivery_fee) AS Profit
+           FROM public.order
+           GROUP BY order_driver) AS s1
+        JOIN
+          (SELECT Sum(transaction_amount) AS Paid,
+                  driver_id
+           FROM company_driver_transaction
+           INNER JOIN public.transaction ON company_driver_transaction.transaction_id=public.transaction.transaction_id
+           GROUP BY driver_id) AS s2 ON s2.driver_id = s1.order_driver
+        RIGHT JOIN public.driver AS d ON d.user_id = s2.driver_id
+        LEFT JOIN public.user AS u ON u.user_id = d.user_id
+        WHERE d.user_id = :did
+
+        """
+    ).bindparams(did=driver_id)
+
+    row = db.session.execute(stmt).first()
+    return DriverData(
+                user_id=row[0],
+                full_name=row[1],
+                email=row[2],
+                phone=row[3],
+                bank_account=row[4],
+                profit=row[5],
+                paid=row[6])
+
 
 def getSellersData(sellerId: int):
     result = db.session.execute(
