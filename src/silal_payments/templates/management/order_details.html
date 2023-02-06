@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Order # {{order.order_id}}
+Order # {{order_id}}
 {% endblock %}
 
 {% block page_styles %}
@@ -17,38 +17,31 @@ Order # {{order.order_id}}
 
 
 
-    <h1>Order # {{order.order_id}}</h1>
+    <h1>Order # {{order_id}}</h1>
 
 
-    <p>Total: TOTAL</p>
-
-    <br>
-    <a href="/seller/">
-        <h2>Seller: SELLER_NAME</h2>
-    </a>
-
+    <p>Total: {{order_total}} $</p>
 
     <br>
 
 
-    {% for item in order.items %}
+    {% for item in items %}
 
-    name : {{ item.product.name }}
-    seller : {{ item.product.seller.name }}
-    quantity : {{ item.quantity }}
-    price_per_unit : {{ item.price_per_unit }}
+    <br>
+    <br>
+    <br>
 
-    total : {{ item.total }}
+    <h3>Product # {{item.product.product_id}}</h3>
+
+    product_name : {{ item.product.product_name }} <br>
+    <a href="/sellers/{{item.product.seller_id}}"></a> seller : {{ item.seller_name }}</a> <br>
+    quantity : {{ item.quantity }} <br>
+    price_per_unit : {{ item.order_price }} <br>
+    current_product_price : {{ item.product.product_price }} <br>
+
+    total : {{ item.total() }}
 
     {% endfor %}
-
-
-
-    <ul>
-        <li>Product: PRODUCT_NAME</li>
-        <li>Quantity: QUANTITY</li>
-        <li>Price: PRICE</li>
-    </ul>
 
     <br>
 </div>
