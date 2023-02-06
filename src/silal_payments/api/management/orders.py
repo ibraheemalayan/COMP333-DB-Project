@@ -11,7 +11,7 @@ from flask import render_template
 def order_list_page():
     """orders table"""
 
-    orders: List[Order] = list_orders()
+    orders: List[Order] = sorted(list_orders(), key=lambda order: order.order_id, reverse=False)
 
     return render_template("management/orders_list.html", orders=orders)
 

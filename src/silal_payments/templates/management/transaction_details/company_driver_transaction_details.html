@@ -15,10 +15,12 @@ Transaction # {{transaction.transaction_id}}
     <h1>Transaction # {{transaction.transaction_id}}</h1>
     <h6 class="badge bg-info">Compnay - Driver</h6>
 
-    <br>
-    <a href="/drivers/{{driver.user_id}}">
-        <h2>Driver: {{driver.full_name}}</h2>
-    </a>
+    <h2>
+        Driver:
+        <a href="/drivers/{{driver.user_id}}">
+            {{driver.full_name}}
+        </a>
+    </h2>
 
     <h4>transaction_type : {{ transaction.transaction_type.name }}</h4>
     <h4>transaction_date : {{ transaction.transaction_date.strftime('%Y-%m-%d %H:%M') }}</h4>
