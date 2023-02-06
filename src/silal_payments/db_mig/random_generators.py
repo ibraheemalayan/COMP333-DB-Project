@@ -155,7 +155,7 @@ def insert_random_transactions(
     for i in range(num_transactions):
         transaction_type = random_choice(list(TransactionType))
         transaction_amount = randint(1, 100) / 10.0
-        transaction_date = datetime.now() - timedelta(minutes=randint(1, 60 * 24 * 6))
+        transaction_date = datetime.now() - timedelta(minutes=randint(1, 60 * 24 * 190))
         if transaction_type == TransactionType.company_driver_transaction:
             transactions.append(
                 CompanyDriverTransaction(
@@ -254,7 +254,8 @@ def insert_random_orders(
                 order_customer=random_choice(customers).user_id,
                 order_driver=random_choice(drivers).user_id,
                 order_status="Potato",
-                order_date=datetime.now() - timedelta(minutes=randint(1, 60 * 24 * 90)),
+                order_date=datetime.now()
+                - timedelta(minutes=randint(10, 60 * 24 * 180)),
                 delivery_fee=randint(50, 100) / 10.0,
             )
         )

@@ -1,7 +1,10 @@
 # Silal Payment System
 
-## [Project Installation](./docs/Setup.md)
+A simple transaction database system for an e-commerce platform.
 
+
+
+## [Project Installation](./docs/Setup.md)
 
 ## Commands
 

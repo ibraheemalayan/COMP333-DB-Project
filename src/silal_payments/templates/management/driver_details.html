@@ -23,38 +23,41 @@ Driver # {{driver.user_id}}
     <p>Paid: {{driver.paid}}</p>
     <p>Balance: {{driver.balance}} </p>
 
+    <a class="btn btn-outline-info" href="/new_transaction/?user_id={{driver.user_id}}&&t_type=1" role="button">New
+        Transaction</a>
+
 
     <br>
 
-        <h1 class="heading text-center mb-3">
-            Transactions
-        </h1>
+    <h1 class="heading text-center mb-3">
+        Transactions
+    </h1>
 
 
-        <table class="table table-r table-hover ">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    <th>Type</th>
-                </tr>
-            </thead>
-            <tbody>
+    <table class="table table-r table-hover ">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
 
-                {% for t in transactions %}
-                <tr>
-                    <td class="smaller_td">{{t.transaction_id}}</td>
-                    <td class="smaller_td">{{t.transaction_amount}}</td>
-                    <td class="smaller_td">{{t.transaction_date}}</td>
-                    <td class="smaller_td">{{t.transaction_type}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            {% for t in transactions %}
+            <tr>
+                <td class="smaller_td">{{t.transaction_id}}</td>
+                <td class="smaller_td">{{t.transaction_amount}}</td>
+                <td class="smaller_td">{{t.transaction_date}}</td>
+                <td class="smaller_td">{{t.transaction_type}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <br>
-    
+
     <h1 class="heading text-center mb-3">
         Orders
     </h1>
