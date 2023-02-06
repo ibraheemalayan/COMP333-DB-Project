@@ -60,6 +60,11 @@ def test():
     list_drivers_with_balance()
 
 
+@cli_bp.cli.command("test-company-profit")
+def test():
+    company_profit()
+
+
 @cli_bp.cli.command("drop-db")
 def drop_db():
     print("\n❕ Dropping Database ...")
