@@ -40,11 +40,11 @@ def delete_product_api(p_id):
         delete_product(product_id=p_id)
 
     except KeyError as e:
-        flash("Product not found", "danger")
+        flash("Product not found", "error")
         return redirect(url_for("management_api.home"))
 
     except ValueError as e:
-        flash("Product has orders, and cannot be deleted", "danger")
+        flash("Product has orders, and cannot be deleted", "error")
         return redirect(url_for("management_api.home"))
 
     flash("Product deleted", "success")
