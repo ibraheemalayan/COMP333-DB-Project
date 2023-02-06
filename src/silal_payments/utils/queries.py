@@ -25,7 +25,7 @@ class Item:
         return self.order_price * self.quantity
 
 
-def showOrderProducts(order_id):
+def showOrderProducts(order_id: int):
     result = db.session.execute(text(
         f"""	
 	select pr.*, u.full_name, oi.quantity, oi.price_per_unit
@@ -44,3 +44,35 @@ def showOrderProducts(order_id):
         Items.append(Item(Product(product_id=row[0], product_name=row[1],
                      product_price=row[2], product_seller=row[3]), row[4], row[5], row[6]))
     return Items
+def getSellersData(sellerId: int):
+    result = db.session.execute(text(
+    f"""
+    select  sum(oi.quantity * oi.price_per_unit), s.bank_account, u.*
+	FROM 
+	public.product pr JOIN public.order_item oi 
+	ON oi.product_id = pr.product_id 
+	JOIN public.seller s 
+	ON pr.product_seller = s.user_id
+	JOIN public.user u 
+	ON u.user_id = s.user_id
+	where u.user_id = :sid
+	group by u.user_id, s.user_id
+        """).bindparams(sid=sellerId)).first()
+    return Seller(user_id=result[2], phone=result[3],full_name=result[4],email=result[7],  bank_account=result[1], balance=result[0],password_hash=None)
+def getAllSellersData():
+    result = db.session.execute(text(
+    f"""
+    select  sum(oi.quantity * oi.price_per_unit), s.bank_account, u.*
+	FROM 
+	public.product pr JOIN public.order_item oi 
+	ON oi.product_id = pr.product_id 
+	JOIN public.seller s 
+	ON pr.product_seller = s.user_id
+	JOIN public.user u 
+	ON u.user_id = s.user_id
+	group by u.user_id, s.user_id
+        """))
+    sellers = []
+    for row in result:
+        sellers.append(Seller(user_id=row[2], phone=row[3],full_name=row[4],email=row[7],  bank_account=row[1], balance=row[0],password_hash=None))
+    return sellers         
