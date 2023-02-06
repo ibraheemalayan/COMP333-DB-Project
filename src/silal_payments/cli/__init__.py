@@ -2,6 +2,11 @@ from flask import Blueprint, current_app
 from sqlalchemy import text
 from silal_payments.models.product import Product
 from silal_payments.utils.queries import *
+from silal_payments.models.transactions.customer_company_transaction import (
+    load_transaction_details,
+)
+from datetime import datetime
+
 
 cli_bp = Blueprint("cli", __name__)
 
@@ -14,11 +19,26 @@ def init_db():
 @cli_bp.cli.command("db-fill")
 def init_db():
     from silal_payments.db_mig import fill_defaults_and_fake
-    
+
+
 @cli_bp.cli.command("test-products")
 def test():
     for product in Product.load_products_from_db():
         print(product)
+
+
+@cli_bp.cli.command("test-company-driver-transaction")
+def test_t():
+
+    info = load_transaction_details(transaction_id=3)
+    print("_" * 20)
+    print(info[0])
+    print("_" * 20)
+    print(info[1])
+    print("_" * 20)
+    print(info[2])
+
+
         
 @cli_bp.cli.command("show_order_products")
 def test():
@@ -30,7 +50,6 @@ def test():
 
 @cli_bp.cli.command("drop-db")
 def drop_db():
-
     print("\n❕ Dropping Database ...")
 
     from silal_payments import db
@@ -54,7 +73,6 @@ def drop_db():
 # TODO Never make this runnable in production
 @cli_bp.cli.command("reset-db-w-sample-data")
 def init_db_with_sample_data():
-
     if not current_app.debug:
         raise Exception("Seriously !")
 

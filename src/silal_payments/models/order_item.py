@@ -4,6 +4,8 @@ from sqlalchemy.engine import Result, Row
 
 
 class OrderItem:
+    table_name = "order_item"
+
     def __init__(
         self, order_id: int, product_id: int, quantity: int, price_per_unit: int
     ) -> None:
