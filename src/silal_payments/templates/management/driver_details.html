@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Driver # {{driver.user_id}}
+{% endblock %}
+
+{% block page_styles %}
+<link href="/static/css/home.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+
+    <a href="/drivers" class="mb-5 btn btn-dark">Back To Drivers</a>
+    <h1>Driver: {{driver.full_name}}</h1>
+    <p>ID: {{driver.user_id}} </p>
+    <p>Phone: {{driver.phone}} </p>
+    <p>Email: {{driver.email}} </p>
+    <p>Bank Account: {{driver.bank_account}} </p>
+    <p>Profit: {{driver.profit}}</p>
+    <p>Paid: {{driver.paid}}</p>
+    <p>Balance: {{driver.balance}} </p>
+
+
+    <br>
+
+        <h1 class="heading text-center mb-3">
+            Transactions
+        </h1>
+
+
+        <table class="table table-r table-hover ">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for t in transactions %}
+                <tr>
+                    <td class="smaller_td">{{t.transaction_id}}</td>
+                    <td class="smaller_td">{{t.transaction_amount}}</td>
+                    <td class="smaller_td">{{t.transaction_date}}</td>
+                    <td class="smaller_td">{{t.transaction_type}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    <br>
+    
+    <h1 class="heading text-center mb-3">
+        Orders
+    </h1>
+
+
+    <table class="table table-r table-hover ">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Fee</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for o in orders %}
+            <tr>
+                <td class="smaller_td">{{o.order_id}}</td>
+                <td class="smaller_td">{{o.order_date}}</td>
+                <td class="smaller_td">{{o.delivery_fee}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}
+
+    {% block scripts %}
+    {{ super() }}
+    {% endblock %}

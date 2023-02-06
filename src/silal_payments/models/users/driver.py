@@ -53,11 +53,12 @@ class Driver(User):
                     public.{User.table_name}.user_type,
                     public.{User.table_name}.full_name,
                     public.{User.table_name}.password_hash,
+                    public.{User.table_name}.email,
                     public.{Driver.sub_table_name}.bank_account
                 FROM
-                    public.{Driver.sub_table_name} LEFT JOIN
-                    ON public.{Driver.sub_table_name}=public.{User.table_name}
-                WHERE {User.table_name}.user_id = :user_id
+                    public.{Driver.sub_table_name} LEFT JOIN public.{User.table_name}
+                    ON public.{Driver.sub_table_name}.user_id=public.{User.table_name}.user_id
+                WHERE public.{User.table_name}.user_id = :user_id
             """
             ).bindparams(user_id=user_id),
         ).first()
