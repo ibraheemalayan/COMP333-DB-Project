@@ -66,6 +66,7 @@ def seller_details(seller_id):
     seller = getSellersData(seller_id)
     order_items = get_seller_orders_items(seller_id)
     transactions =  seller_company_transactions_filter(seller_id)
+    print(transactions)
     return render_template(
         "management/seller_details.html", products=products, seller=seller, order_items=order_items, transactions=transactions
     )
