@@ -1,6 +1,7 @@
 from flask import Blueprint, current_app
 from sqlalchemy import text
 from silal_payments.models.product import Product
+from silal_payments.utils.queries import *
 
 cli_bp = Blueprint("cli", __name__)
 
@@ -18,6 +19,15 @@ def init_db():
 def test():
     for product in Product.load_products_from_db():
         print(product)
+        
+@cli_bp.cli.command("show_order_products")
+def test():
+    from silal_payments.models.order import Order
+    for order in Order.load_from_db():
+        print(order)
+        for item in showOrderProducts(order.order_id):
+            print(item)
+
 @cli_bp.cli.command("drop-db")
 def drop_db():
 
@@ -41,8 +51,6 @@ def drop_db():
 # def init_db_with_sample_data():
 #     from silal.db_mig import initialize_db
 #     from silal.db_mig import fake_fill_db
-
-
 # TODO Never make this runnable in production
 @cli_bp.cli.command("reset-db-w-sample-data")
 def init_db_with_sample_data():
