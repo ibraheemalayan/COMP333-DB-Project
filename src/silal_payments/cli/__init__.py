@@ -55,9 +55,24 @@ def test():
     print(getSellersData(Seller.load_by_id(2).user_id))
 
 
+@cli_bp.cli.command("show_monthly_profit")
+def test():
+    print(getMonthlyProfit())
+
+
 @cli_bp.cli.command("test_drivers_balance")
 def test():
     list_drivers_with_balance()
+
+
+@cli_bp.cli.command("test-company-profit")
+def test():
+    company_profit()
+
+
+@cli_bp.cli.command("test-orders-number")
+def test():
+    get_order_count()
 
 
 @cli_bp.cli.command("drop-db")
