@@ -150,7 +150,7 @@ def getAllSellersData():
             Seller(
                 user_id=row[2],
                 phone=row[3],
-                full_name=row[4],
+                full_name=row[5],
                 email=row[7],
                 bank_account=row[1],
                 balance=row[0],
