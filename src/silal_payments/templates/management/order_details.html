@@ -20,7 +20,10 @@ Order # {{order_id}}
     <h1>Order # {{order_id}}</h1>
 
 
-    <p>Total: {{order_total}} $</p>
+    <p>Items Total: {{order_items_total}} $</p>
+    <p>Delivery Fee: {{delivery_fee}} $</p>
+
+    <p>Total: {{delivery_fee + order_items_total }} $</p>
 
     <br>
 
