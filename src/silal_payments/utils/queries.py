@@ -64,3 +64,37 @@ def showOrderProducts(order_id):
             )
         )
     return Items
+
+
+def list_drivers_with_balance():
+    """list all drivers with balance"""
+
+    stmt = text(
+        f"""
+        SELECT d.user_id,
+               u.full_name,
+               d.bank_account,
+               s1.Profit,
+               s2.Paid
+        FROM
+          (SELECT order_driver,
+                  Sum(delivery_fee) AS Profit
+           FROM public.order
+           GROUP BY order_driver) AS s1
+        JOIN
+          (SELECT Sum(transaction_amount) AS Paid,
+                  driver_id
+           FROM company_driver_transaction
+           INNER JOIN public.transaction ON company_driver_transaction.transaction_id=public.transaction.transaction_id
+           GROUP BY driver_id) AS s2 ON s2.driver_id = s1.order_driver
+        RIGHT JOIN public.driver AS d ON d.user_id = s2.driver_id
+        LEFT JOIN public.user AS u ON u.user_id = d.user_id
+        ORDER BY d.user_id
+
+        """
+    )
+
+    result = db.session.execute(stmt)
+
+    for row in result:
+        print(row)

@@ -72,3 +72,25 @@ class Driver(User):
             email=user[5],
             bank_account=user[6],
         )
+
+    def get_balance(self):
+        """Get the balance of the driver"""
+        result: Result = db.session.execute(
+            text(
+                f"""
+                SELECT
+                    SUM(public.{DriverCompanyTransaction.sub_table_name}.transaction_amount)
+                FROM
+                    public.{DriverCompanyTransaction.sub_table_name}
+                WHERE
+                    public.{DriverCompanyTransaction.sub_table_name}.driver_id = :driver_id
+            """
+            ).bindparams(driver_id=self.user_id),
+        )
+
+        balance: Row = result.first()
+
+        if balance is None:
+            return 0
+
+        return balance[0]
