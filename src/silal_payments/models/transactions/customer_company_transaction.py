@@ -76,7 +76,7 @@ class CustomerCompanyTransaction(Transaction):
 #     )
 
 
-def load_transaction_details(transaction_id: int) -> tuple:
+def load_customer_company_transaction_details(transaction_id: int) -> tuple:
     """Load a customer_company_transaction from the database"""
     stmt = text(
         f"""
@@ -99,7 +99,7 @@ def load_transaction_details(transaction_id: int) -> tuple:
     ).bindparams(transaction_id=transaction_id)
 
     result: Result = db.session.execute(stmt)
-    transaction: Row = result.fetchone()
+    transaction: Row = result.first()
 
     if transaction is None:
         return None

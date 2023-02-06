@@ -3,6 +3,8 @@ from silal_payments import db
 from sqlalchemy import text
 from sqlalchemy.engine import Result, Row
 from silal_payments.models.transactions.transaction import Transaction, TransactionType
+from silal_payments.models.users.customer import Customer
+from silal_payments.models.users.driver import Driver
 
 from datetime import datetime
 
@@ -72,3 +74,61 @@ class CustomerDriverTransaction(Transaction):
 #         customer_id=transaction[3],
 #         driver_id=transaction[4],
 #     )
+
+
+def load_customer_driver_transaction_details(transaction_id: int) -> tuple:
+    """load customer driver transaction details from the database"""
+
+    stmt = text(
+        f"""
+        SELECT
+            u1.user_id AS customer_id,
+            u1.full_name AS customer_full_name,
+            u2.user_id AS driver_id,
+            u2.full_name AS driver_full_name,
+            public.{CustomerDriverTransaction.sub_table_name}.transaction_id,
+            public.{Transaction.table_name}.transaction_amount,
+            public.{Transaction.table_name}.transaction_date
+        FROM public.{CustomerDriverTransaction.sub_table_name}
+        INNER JOIN public.{Transaction.table_name}
+        ON public.{CustomerDriverTransaction.sub_table_name}.transaction_id = public.{Transaction.table_name}.transaction_id
+        INNER JOIN public.{Customer.table_name} AS u1
+        ON public.{CustomerDriverTransaction.sub_table_name}.customer_id = u1.user_id
+        INNER JOIN public.{Driver.table_name} AS u2
+        ON public.{CustomerDriverTransaction.sub_table_name}.driver_id = u2.user_id
+        WHERE public.{CustomerDriverTransaction.sub_table_name}.transaction_id = :transaction_id;
+        """
+    ).bindparams(transaction_id=transaction_id)
+
+    result: Result = db.session.execute(stmt)
+    transaction: Row = result.first()
+
+    if transaction is None:
+        return None
+
+    return (
+        Customer(
+            user_id=transaction[0],
+            full_name=transaction[1],
+            phone=None,
+            password_hash=None,
+            email=None,
+            address=None,
+            card_number=None,
+        ),
+        Driver(
+            user_id=transaction[2],
+            full_name=transaction[3],
+            phone=None,
+            bank_account=None,
+            password_hash=None,
+            email=None,
+        ),
+        CustomerDriverTransaction(
+            transaction_id=transaction[4],
+            transaction_amount=transaction[5],
+            transaction_date=transaction[6],
+            customer_id=transaction[0],
+            driver_id=transaction[2],
+        ),
+    )

@@ -76,7 +76,7 @@ class CompanyDriverTransaction(Transaction):
 #     )
 
 
-def load_transaction_details(
+def load_company_driver_transaction_details(
     transaction_id: int,
 ) -> Tuple[Driver, CompanyDriverTransaction]:
     """Load the driver and transaction details for a given transaction"""
@@ -98,7 +98,7 @@ def load_transaction_details(
     ).bindparams(transaction_id=transaction_id)
 
     result: Result = db.session.execute(stmt)
-    transaction: Row = result.fetchone()
+    transaction: Row = result.first()
 
     if transaction is None:
         return None
