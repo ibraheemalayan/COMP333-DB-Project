@@ -1,8 +1,8 @@
 from flask import Blueprint, current_app
 from sqlalchemy import text
 from silal_payments.models.product import Product
-from silal_payments.models.transactions.customer_driver_transaction import (
-    load_customer_driver_transaction_details,
+from silal_payments.models.transactions.seller_company_transaction import (
+    load_seller_company_transactions_details,
 )
 from silal_payments.utils.queries import *
 
@@ -28,16 +28,14 @@ def test():
         print(product)
 
 
-@cli_bp.cli.command("test-company-driver-transaction")
+@cli_bp.cli.command("test-transaction")
 def test_t():
 
-    info = load_customer_driver_transaction_details(transaction_id=34)
+    info = load_seller_company_transactions_details(transaction_id=44)
     print("_" * 20)
     print(info[0])
     print("_" * 20)
     print(info[1])
-    print("_" * 20)
-    print(info[2])
 
 
 @cli_bp.cli.command("show_order_products")
