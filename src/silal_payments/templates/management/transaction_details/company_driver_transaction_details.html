@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Transaction # {{transaction.transaction_id}}
+{% endblock %}
+
+{% block page_styles %}
+<link href="/static/css/home.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Transaction # {{transaction.transaction_id}}</h1>
+    <h6 class="badge bg-info">Compnay - Driver</h6>
+
+    <br>
+    <a href="/drivers/{{driver.user_id}}">
+        <h2>Driver: {{driver.full_name}}</h2>
+    </a>
+
+    <h4>transaction_type : {{ transaction.transaction_type.name }}</h4>
+    <h4>transaction_date : {{ transaction.transaction_date.strftime('%Y-%m-%d %H:%M') }}</h4>
+    <h4>amount : {{ transaction.transaction_amount }} $</h4>
+
+
+
+    <br>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}

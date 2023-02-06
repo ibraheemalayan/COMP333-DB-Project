@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Order # {{order.order_id}}
+{% endblock %}
+
+{% block page_styles %}
+<link href="/static/css/home.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+<a href="/" class="m-3 btn btn-dark">Back To Home</a>
+<br><br>
+
+<div class="container">
+
+
+
+    <h1>Order # {{order.order_id}}</h1>
+
+
+    <p>Total: TOTAL</p>
+
+    <br>
+    <a href="/seller/">
+        <h2>Seller: SELLER_NAME</h2>
+    </a>
+
+
+    <br>
+
+
+    {% for item in order.items %}
+
+    name : {{ item.product.name }}
+    seller : {{ item.product.seller.name }}
+    quantity : {{ item.quantity }}
+    price_per_unit : {{ item.price_per_unit }}
+
+    total : {{ item.total }}
+
+    {% endfor %}
+
+
+
+    <ul>
+        <li>Product: PRODUCT_NAME</li>
+        <li>Quantity: QUANTITY</li>
+        <li>Price: PRICE</li>
+    </ul>
+
+    <br>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}

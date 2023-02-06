@@ -3,7 +3,6 @@ from sqlalchemy import text
 from silal_payments.models.product import Product
 from silal_payments.models.transactions.company_driver_transaction import (
     CompanyDriverTransaction,
-    load_company_driver_transaction_from_db,
     load_transaction_details,
 )
 from datetime import datetime
@@ -30,7 +29,6 @@ def test():
 
 @cli_bp.cli.command("test-company-driver-transaction")
 def test_t():
-
     info = load_transaction_details(transaction_id=26)
     print("_" * 20)
     print(info[0])
@@ -40,7 +38,6 @@ def test_t():
 
 @cli_bp.cli.command("drop-db")
 def drop_db():
-
     print("\n❕ Dropping Database ...")
 
     from silal_payments import db
@@ -64,7 +61,6 @@ def drop_db():
 # TODO Never make this runnable in production
 @cli_bp.cli.command("reset-db-w-sample-data")
 def init_db_with_sample_data():
-
     if not current_app.debug:
         raise Exception("Seriously !")
 

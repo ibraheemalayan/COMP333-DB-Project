@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Silal Transaction Ledger
+{% endblock %}
+
+{% block page_styles %}
+<link href="/static/css/transaction_ledger.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <h1 class="heading text-center mb-3">
+    <span class="silal_colored">
+      Silal
+    </span> Orders
+  </h1>
+
+
+  <table class="table table-r ">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Total</th>
+        <th>Customer</th>
+        <th>Datetime</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for o in orders %}
+      <tr>
+        <td>{{o.order_id}}</td>
+        <td>${{o.total}}</td>
+
+        <td>
+
+          <span class="badge badge-{{ transaction_types_bs_classes[t.transaction_type.name] }}">{{
+            t.transaction_type.name
+            }}</span>
+
+        </td>
+
+        <td>{{t.transaction_date.strftime('%Y-%m-%d %H:%M')}}</td>
+      </tr>
+      {% endfor %}
+
+
+    </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}
