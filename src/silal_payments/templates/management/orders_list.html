@@ -13,37 +13,26 @@ Silal Transaction Ledger
 <div class="container">
 
   <h1 class="heading text-center mb-3">
-    <span class="silal_colored">
-      Silal
-    </span> Orders
+    Orders
   </h1>
 
 
-  <table class="table table-r ">
+  <table class="table table-r table-hover ">
     <thead class="thead-dark">
       <tr>
         <th>ID</th>
         <th>Total</th>
-        <th>Customer</th>
         <th>Datetime</th>
       </tr>
     </thead>
     <tbody>
 
       {% for o in orders %}
-      <tr>
-        <td>{{o.order_id}}</td>
-        <td>${{o.total}}</td>
+      <tr onclick="window.location.href = '/order/{{o.order_id}}';" style="cursor: pointer">
+        <td class="smaller_td">{{o.order_id}}</td>
+        <td class="smaller_td">${{o.total}}</td>
+        <td class="smaller_td">TODO</td>
 
-        <td>
-
-          <span class="badge badge-{{ transaction_types_bs_classes[t.transaction_type.name] }}">{{
-            t.transaction_type.name
-            }}</span>
-
-        </td>
-
-        <td>{{t.transaction_date.strftime('%Y-%m-%d %H:%M')}}</td>
       </tr>
       {% endfor %}
 

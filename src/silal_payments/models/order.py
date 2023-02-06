@@ -13,12 +13,14 @@ class Order:
         order_driver: int,
         order_status: str,
         delivery_fee: float,
+        total: float = None,
     ) -> None:
         self.order_id: int = order_id
         self.order_customer: int = order_customer
         self.order_driver: int = order_driver
         self.order_status: str = order_status
         self.delivery_fee: float = delivery_fee
+        self.total: float = total
 
     def insert_into_db(self) -> int:
         order_id: Row = db.session.execute(
@@ -38,7 +40,7 @@ class Order:
     def __str__(self) -> str:
         return f"Order ID: {self.order_id}, Customer ID: {self.order_customer}, Driver ID: {self.order_driver}, Status: {self.order_status}, Delivery Fee: {self.delivery_fee}"
 
-    def total(self) -> float:
+    def load_total(self) -> float:
         total: Row = db.session.execute(
             text(
                 f"""
@@ -67,3 +69,24 @@ class Order:
             for row in result
         ]
         return orders
+
+
+def list_orders():
+    result = db.session.execute(
+        text(
+            f"""SELECT public.order.*, SUM(price_per_unit * quantity) FROM public.order JOIN public.order_item ON public.order.order_id = public.order_item.order_id gROUP BY public.order.order_id, public.order_item.order_id"""
+        )
+    )
+
+    orders = [
+        Order(
+            order_id=row[0],
+            order_customer=row[1],
+            order_driver=row[2],
+            order_status=row[3],
+            delivery_fee=row[4],
+            total=row[5],
+        )
+        for row in result
+    ]
+    return orders

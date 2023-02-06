@@ -22,3 +22,7 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+.smaller_td {
+    font-size: 15pt !important;
+}

@@ -32,10 +32,10 @@ Silal Transaction Ledger
 
       {% for t in transactions %}
       <tr>
-        <td>{{t.transaction_id}}</td>
-        <td>${{t.transaction_amount}}</td>
+        <td class="smaller_td">{{t.transaction_id}}</td>
+        <td class="smaller_td">${{t.transaction_amount}}</td>
 
-        <td>
+        <td class="smaller_td">
 
           <span class="badge badge-{{ transaction_types_bs_classes[t.transaction_type.name] }}">{{
             t.transaction_type.name
@@ -43,7 +43,7 @@ Silal Transaction Ledger
 
         </td>
 
-        <td>{{t.transaction_date.strftime('%Y-%m-%d %H:%M')}}</td>
+        <td class="smaller_td">{{t.transaction_date.strftime('%Y-%m-%d %H:%M')}}</td>
       </tr>
       {% endfor %}
 

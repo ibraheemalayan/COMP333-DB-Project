@@ -1,9 +1,19 @@
 from typing import List
 from silal_payments.auth.decorators import manager_login_required
-from silal_payments.models.order import Order
+from silal_payments.models.order import Order, list_orders
 from silal_payments.utils.queries import Item, showOrderProducts
 from . import management_api
 from flask import render_template
+
+
+@management_api.route("/orders/", methods=["GET"], subdomain="management")
+@manager_login_required
+def order_list_page():
+    """orders table"""
+
+    orders: List[Order] = list_orders()
+
+    return render_template("management/orders_list.html", orders=orders)
 
 
 @management_api.route("/order/<int:order_id>/", methods=["GET"], subdomain="management")
